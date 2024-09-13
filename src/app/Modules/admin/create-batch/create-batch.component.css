@@ -1,0 +1,46 @@
+.dashb_info {
+    margin-top: 20px;
+}
+.row{
+  display: flex;
+  align-items: baseline;
+}
+
+.searchContainer {
+  position: relative;
+}
+
+.studentlist {
+  position: absolute;
+  top: 0; /* Position below the input field */
+  left: 0;
+  width: 100%; /* Make sure the list width matches the input width */
+  max-height: 100px !important; /* Adjust as needed */
+  overflow-y: hidden;
+  background-color: white;
+  border: 1px solid #ccc;
+  z-index: 1000;
+}
+
+.row>*
+{
+  margin-bottom: 6%;
+}
+
+.studentItem
+{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.text-primary {
+  color: var(--mat-primary);
+}
+.student-mobile {
+  margin-top: 0px; /* Adjust spacing as needed */
+}
+.divider {
+  border: none;
+  border-top: 2px solid #ccc; /* Adjust color and style as needed */
+  margin: 8px 0; /* Adjust spacing as needed */
+}

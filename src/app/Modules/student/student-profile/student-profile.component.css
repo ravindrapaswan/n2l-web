@@ -1,0 +1,15 @@
+.profile-card {width: 100%; margin: 0 auto; padding: 16px;}
+.profile-photo {width: 100%; max-width: 150px;}
+.detail-item {margin-bottom: 20px; justify-content: space-between;}
+.label {font-weight: bold; margin-right: 10px;}
+.value {font-weight: normal;}
+.profile-details .detail-item {border-bottom: 1px solid rgba(0,0,0,0.2); padding-bottom: 10px;}
+.pic_thumb {margin-top: 30px;}
+.pic_thumb_mobview {display: none;}
+
+
+@media only screen and (max-width:767px) {
+    .pic_thumb_deskview {display: none;}
+    .pic_thumb_mobview {display: block;}
+    .pic_thumb {margin-bottom: 20px;}
+}

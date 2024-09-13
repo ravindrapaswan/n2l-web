@@ -1,0 +1,9 @@
+.webinar_register {
+  background: url(/assets/images/texture-bg.jpg);
+}
+
+.custom-mat-dialog-panel {
+  resize: both;
+  height: 50px;
+  width: 50px;
+}

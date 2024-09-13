@@ -1,0 +1,97 @@
+<div class="srow load_circles_transbg" *ngIf="loader">
+    <div class="load_circles">
+        <mat-spinner></mat-spinner>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12"> 
+        <div class="srow clrleft card_details dashb_info">
+            <h1 class="admin_heading_h1">Create Webinar</h1>
+            <div class="srow clrleft dashboard-details">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <form id="register_new" [formGroup]="WebinarForm" (ngSubmit)="CreateWebinar()">
+
+                            <div class="row">
+                                <div class="col-md-4 mb-3">
+                                    <mat-form-field appearance="outline" style="width: 100%">
+                                        <mat-label>Topic Name</mat-label>
+                                        <input autocomplete="off" formControlName="Topic" matInput
+                                            placeholder="Enter Topic Name" required>
+                                        <mat-error>Please Enter Topic Name</mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <mat-form-field appearance="outline" style="width: 100%">
+                                        <mat-label>Duration</mat-label>
+                                        <input autocomplete="off" formControlName="Duration" matInput
+                                            placeholder="Enter Duration" required>
+                                        <mat-error>Please Enter Duration</mat-error>
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="col-md-4 mb-3">
+                                    <!-- <label class="form-label">Date</label>
+                                    
+                                    <input type="date" class="form-control" formControlName="Date"> -->
+                                    <mat-form-field appearance="outline" style="width: 100%; position: relative;">
+                                        <mat-label>Date</mat-label>
+                                        <input matInput [matDatepicker]="picker" formControlName="Date"
+                                            placeholder="dd/MM/yyyy" required>
+                                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker></mat-datepicker>
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="col-md-4 mb-3">
+                                    <mat-form-field appearance="outline" style="width: 100%">
+                                        <mat-label>Start Time</mat-label>
+                                        <input autocomplete="off" formControlName="StartTime" matInput
+                                            placeholder="Enter Start Time" required>
+                                        <mat-error>Please Enter StartTime</mat-error>
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="col-md-4 mb-3">
+                                    <mat-form-field appearance="outline" style="width: 100%">
+                                        <mat-label>Description</mat-label>
+                                        <input autocomplete="off" formControlName="Description" matInput
+                                            placeholder="Enter Description" required>
+                                        <mat-error>Please Enter Description</mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <mat-form-field appearance="outline" style="width: 100%">
+                                        <mat-label>Zoom Link</mat-label>
+                                        <input autocomplete="off" formControlName="ZoomLink" matInput
+                                            placeholder="Enter Zoom Link" required>
+                                        <mat-error>Please Enter Zoom Link</mat-error>
+                                    </mat-form-field>
+                                </div>
+                              
+                                <div class="col-md-4 mb-3">
+                                    <div class="input-files">
+                                        <label>Webinar Banner</label>
+                                        <input #WebinarPhoto type="file" class="form-control" (change)="BannerFile($event)"
+                                        accept="image/*">
+                                    </div>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <div class="input-files">
+                                        <label>Webinar Video</label>
+                                        <input #WebinarVideo type="file" class="form-control" (change)="VideoFile($event)"
+                                        accept="video/*">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <button type="submit" mat-raised-button color="primary"
+                                        class="btn-desk-normal-w mt_28dsk">Create</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

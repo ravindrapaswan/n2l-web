@@ -1,0 +1,11 @@
+.cdk-overlay-pane {width: auto!important; height: auto!important;}
+.mat-mdc-dialog-content {max-height: 100%; padding: 0px;}
+.mdc-dialog .mdc-dialog__content {padding:5px;}
+.mdc-dialog__content {overflow: inherit;}
+.fit-image {height:100%;}
+.mat-mdc-dialog-content {height: 573px; text-align: center;}
+
+@media only screen and (max-width:767px) {
+    .mat-mdc-dialog-content {height: 100%;}
+    .fit-image {width: 100%;}
+}

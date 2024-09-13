@@ -1,0 +1,75 @@
+<div class="srow load_circles_transbg" *ngIf="loader">
+    <div class="load_circles">
+        <mat-spinner></mat-spinner>
+    </div>
+  </div>
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <div class="srow clrleft card_details">
+            <h1 class="admin_heading_h1">Feedback</h1>
+            <div class="srow clrleft feedback-details">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="srow">
+                            <figure>
+                                <img class="srow" src="assets/images/letter-message.png" alt="Default Photo" />
+                            </figure>
+                        </div>
+                    </div>
+                    <div class="col-md-7 offset-md-1">
+                        <form [formGroup]="feedbackForm">
+                            <div class="srow clrleft smiley_emoji_ico">
+                                <h3>How would you rate your experience?</h3>
+                                <div class="item">
+                                    <label for="0">
+                                        <input class="radio" formControlName="rate" type="radio" name="rate" id="0" value="1">
+                                        <span>☹️</span>
+                                    </label>
+                                </div>
+
+                                <div class="item">
+                                    <label for="1">
+                                        <input class="radio" formControlName="rate" type="radio" name="rate" id="1" value="2">
+                                        <span>😕</span>
+                                    </label>
+                                </div>
+
+                                <div class="item">
+                                    <label for="2">
+                                        <input class="radio" formControlName="rate" type="radio" name="rate" id="2" value="3">
+                                        <span>😶</span>
+                                    </label>
+                                </div>
+
+                                <div class="item">
+                                    <label for="3">
+                                        <input class="radio" formControlName="rate" type="radio" name="rate" id="3" value="4">
+                                        <span>😁</span>
+                                    </label>
+                                </div>
+
+                                <div class="item">
+                                    <label for="4">
+                                        <input class="radio" formControlName="rate" type="radio" name="rate" id="4" value="5">
+                                        <span>😍</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <span *ngIf="!feedbackForm.controls['rate'].valid" style="color: blueviolet;">Please Rate your experience...</span>
+                            <div class="form-group">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Tell us about your experience</mat-label>
+                                    <textarea matInput rows="4" formControlName="feedbackText" placeholder="Please give a feedback." required></textarea>
+                                    <mat-error>Please Enter Feedback</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="form-group text_right_respons">
+                                <button type="submit" mat-raised-button color="primary" (click)="feedbackComplaint()" class="btn-desk-normal-w">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

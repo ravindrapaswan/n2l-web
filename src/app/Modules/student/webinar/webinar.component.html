@@ -1,0 +1,39 @@
+<div class="srow load_circles_transbg" *ngIf="loader">
+    <div class="load_circles">
+        <mat-spinner></mat-spinner>
+    </div>
+</div>
+<div class="srow clrleft card_details dashb_info">
+    <h1 class="admin_heading_h1">Webinar's</h1>
+    <div class="srow clrleft dashboard-details">
+        <div class="row">
+            <div class="col-md-3 mb-3" *ngFor="let webinar of webinars">
+                <mat-card class="srow clrleft reg_details">
+                    <mat-card-content>
+
+                        <dfn *ngIf="webinar.studentid==userid" class="srow">
+                            <span>
+                                <small>Registerd</small>
+                                <mat-icon>check_circle_outline</mat-icon>
+                            </span>
+                        </dfn>
+
+                        <figure>
+                            <img [src]="webinar.url + webinar.picturelink" class="srow" />
+                        </figure>
+
+                    </mat-card-content>
+
+                    <div class="srow p-2">
+                        <button *ngIf="!(webinar.studentid==userid)"
+                            (click)="RegisterInWebinar(webinar.webinarid, webinar.topic,userid)"
+                            class="clrleft btn_custom btn_primary">Register</button>
+                        <button (click)="ViewWebinarVideo(webinar.url,webinar.videolink)"
+                            class="clrright btn_custom btn_primary"><span>View</span>
+                            <mat-icon>remove_red_eye</mat-icon></button>
+                    </div>
+                </mat-card>
+            </div>
+        </div>
+    </div>
+</div>

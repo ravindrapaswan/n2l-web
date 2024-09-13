@@ -1,0 +1,113 @@
+<div class="srow load_circles_transbg" *ngIf="loader">
+    <div class="load_circles">
+        <mat-spinner></mat-spinner>
+    </div>
+</div>
+<div class="container">
+    <div class="srow clrleft card_details dashb_info">
+        <h1 class="admin_heading_h1">Dashboard</h1>
+        <div class="srow clrleft dashboard-details inner-content-info">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <mat-card class="example-card" (click)="getPracticeDetails()">
+                                <mat-card-header>
+                                    <mat-card-title-group>
+                                        <mat-card-title style="color: #9b9bf1;">Total Practices</mat-card-title>
+                                        <!-- <mat-card-subtitle>Small</mat-card-subtitle> -->
+                                        <img mat-card-sm-image src="assets/images/practicesLogo.png">
+                                    </mat-card-title-group>
+                                </mat-card-header>
+                                <mat-card-content>
+                                    <h1>{{Total_Number_of_Practices}}</h1>
+                                </mat-card-content>
+                            </mat-card>
+                        </div>
+
+                        <div class="col-md-4">
+                            <mat-card class="example-card" (click)="getRegistrationDetails()">
+                                <mat-card-header>
+                                    <mat-card-title-group>
+                                        <mat-card-title style="color: #9b9bf1;">Total Registrations</mat-card-title>
+                                        <!-- <mat-card-subtitle>Small</mat-card-subtitle> -->
+                                        <img mat-card-sm-image src="assets/images/registration-icon.png">
+                                    </mat-card-title-group>
+                                </mat-card-header>
+                                <mat-card-content>
+                                    <h1>{{Total_Number_of_User_Registration}}</h1>
+                                </mat-card-content>
+                            </mat-card>
+                        </div>
+
+                        <div class="col-md-4" (click)="getExceptionDetails()">
+                            <mat-card class="example-card">
+                                <mat-card-header>
+                                    <mat-card-title-group>
+                                        <mat-card-title style="color: #9b9bf1;">Total Exceptions</mat-card-title>
+                                        <!-- <mat-card-subtitle>Small</mat-card-subtitle> -->
+                                        <img mat-card-sm-image src="assets/images/exeptionLogo.png">
+                                    </mat-card-title-group>
+                                </mat-card-header>
+                                <mat-card-content>
+                                    <h1>{{Total_Number_of_Exceptions}}</h1>
+                                </mat-card-content>
+                            </mat-card>
+
+                        </div>
+
+                    </div>
+
+                    <br>
+
+                    <!-- Table -->
+
+                    <div class="row" *ngIf="IsStudentPractices">
+                        <h2>Student Practices</h2>
+                     
+                        <div class="col-lg-12">
+                            <div id="table_scroll" #TABLE class="srow table-responsive">
+
+                                <table mat-table #table [dataSource]="dataSource" class="mat-elevation-z8"
+                                    id="data_table">
+                                    <ng-container matColumnDef="sno">
+                                        <th mat-header-cell *matHeaderCellDef>S No</th>
+                                        <td mat-cell *matCellDef="let row; let i = index">{{ i + 1 }}</td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="studentid">
+                                        <th mat-header-cell *matHeaderCellDef>Student Id</th>
+                                        <td mat-cell *matCellDef="let row">{{row.studentid}}</td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="name">
+                                        <th mat-header-cell *matHeaderCellDef>Name</th>
+                                        <td mat-cell *matCellDef="let row">{{row.name}}</td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="mobilenumber">
+                                        <th mat-header-cell *matHeaderCellDef>Mobile Number</th>
+                                        <td mat-cell *matCellDef="let row">{{row.mobilenumber}}</td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="No_of_Practices">
+                                        <th mat-header-cell *matHeaderCellDef>No of Practices</th>
+                                        <td mat-cell *matCellDef="let row">
+                                            <p>{{row.No_of_Practices}}</p>
+                                        </td>
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                                    <!-- <tr class="mat-row" *matNoDataRow>
+                                        <td class="mat-cell" colspan="5">No data matching the filter "{{input.value}}"</td>
+                                    </tr> -->
+                                </table>
+                            </div>
+                            <div class="srow">
+                                <mat-paginator [pageSizeOptions]="[30, 60, 100]" id="paginator"></mat-paginator>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,20 @@
+.dashb_info {margin-top: 20px;}
+.play_student_card h2 {font-family: 'Oswald', sans-serif; font-size: 2em; margin-bottom: 20px; margin-top: 0;}
+.play_student_card h3 {font-family: 'Oswald', sans-serif; font-size: 3em; display: inline-block; padding: 20px; letter-spacing: 7px; border-radius: 8px; margin: 10px 0 25px; font-weight: 700;}
+.o_light_bg .play_student_card h2 {color: #d57f36;}
+.o_light_bg .play_student_card h3 {color: #ad550b;}
+.b_light_bg .play_student_card h3 {color: #006c85;}
+.b_light_bg .play_student_card h2 {color: #3894a9;}
+.play_student_card span {float: left; width: 100%; padding-right: 37%;}
+.play_student_card span a {font-size: 18px; text-decoration: none; color: #fff; padding: 5px 15px; background:#6563ff; border-radius: 5px; float: right;}
+.play_student_card span a .mat-icon {float: right; margin-left: 10px;}
+.play_student_card span a:hover {background: #2d72d9;}
+
+@media only screen and (max-width:767px) {
+    .play_student_card h2 {margin-bottom: 0; display: inline-block; margin-right: 20px;}
+    .play_student_card h3 {margin: 10px 0 15px;  padding: 10px 0;}
+    .play_student_card span {padding-right:0; padding-top: 10px;}
+    .o_light_bg .play_student_card span {border-top: 1px dashed #ffbc82;}
+    .b_light_bg .play_student_card span {border-top: 1px dashed #55acc1;}
+    .play_student_card h3 {letter-spacing: 0;}
+}

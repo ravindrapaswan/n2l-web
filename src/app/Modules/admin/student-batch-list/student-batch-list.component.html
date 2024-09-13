@@ -1,0 +1,55 @@
+<div class="srow load_circles_transbg" *ngIf="loader">
+    <div class="load_circles">
+        <mat-spinner></mat-spinner>
+    </div>
+</div>
+<div class="srow clrleft pop_boxes">
+    <div class="srow clrleft card_details mb-0">
+        <mat-dialog-content class="mat-typography webinar_register">
+            <h1 class="admin_heading_h1">Student Batch List</h1>
+
+
+            <!-- Table -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div id="table_scroll" #TABLE class="srow table-responsive">
+                        <table mat-table #table [dataSource]="dataSource" class="mat-elevation-z8" id="data_table">
+
+                            <ng-container matColumnDef="sno">
+                                <th mat-header-cell *matHeaderCellDef>Sno</th>
+                                <td mat-cell *matCellDef="let row; let i = index">{{ i + 1 }}</td>
+                            </ng-container>
+                            <ng-container matColumnDef="name">
+                                <th mat-header-cell *matHeaderCellDef>Name</th>
+                                <td mat-cell *matCellDef="let row">{{row.name}}</td>
+                            </ng-container>
+                            <ng-container matColumnDef="mobilenumber">
+                                <th mat-header-cell *matHeaderCellDef>Mobile Number</th>
+                                <td mat-cell *matCellDef="let row"> {{row.mobilenumber}} </td>
+                            </ng-container>
+                            <ng-container matColumnDef="photo">
+                                <th mat-header-cell *matHeaderCellDef>Photo</th>
+                                <td mat-cell *matCellDef="let row">
+                                    <img class="rounded-circle header-profile-user"
+                                        [src]="row.photo ? s3Url + row.photo : userPhoto" alt="Header Avatar">
+                                </td>
+                            </ng-container>
+
+
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                            <!-- <tr class="mat-row" *matNoDataRow>
+                                                <td class="mat-cell" colspan="5">No data matching the filter "{{input.value}}"</td>
+                                            </tr> -->
+                        </table>
+
+                    </div>
+                    <div class="srow">
+                        <br>
+                        <br>
+                    </div>
+                </div>
+            </div>
+        </mat-dialog-content>
+    </div>
+</div>

@@ -1,0 +1,75 @@
+<div class="vertical-menu">
+  <div class="srow clrleft menu_sidbars">
+
+    <div class="sidebar" *ngIf="UserState==1"> <!--Side Bar For Student-->
+      <ul class="menu">
+        <li class="menu-item signle-menues"><a routerLink="student/dashboard"><mat-icon>dashboard</mat-icon>
+            <span>Dashboard</span></a></li>
+        <li class="menu-item signle-menues"><a routerLink="student/profile"><mat-icon> person_pin</mat-icon>
+            <span>Profile</span></a>
+        </li>
+        <li class="menu-item signle-menues"><a
+            routerLink="student/uploadAssignment"><mat-icon>assignment</mat-icon>Upload
+            Assignment</a></li>
+        <li class="menu-item signle-menues"><a
+            routerLink="student/webinar"><mat-icon>laptop_chromebook</mat-icon>Webinar</a></li>
+        <li class="menu-item signle-menues"><a
+            routerLink="student/feedback"><mat-icon>feedback</mat-icon><span>Feedback</span></a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="sidebar" *ngIf="UserState==2"> <!--Side Bar For Teacher-->
+      <ul class="menu">
+        <li class="menu-item signle-menues"><a routerLink="admin/adminDashboard"><mat-icon>
+              dashboard</mat-icon><span>Dashboard</span></a></li>
+        <li class="menu-item"><a><mat-icon>laptop_chromebook</mat-icon><span>Webinar</span> <i
+              class="fa fa-angle-right"></i></a>
+          <ul class="submenu">
+            <li class="signle-menues"><a
+                routerLink="admin/CreateWebinar"><mat-icon>create_new_folder</mat-icon><span>Create
+                  Webinar</span></a></li>
+            <li class="signle-menues"><a routerLink="admin/EditWebinar"><mat-icon>edit</mat-icon><span>Edit
+                  Webinar</span></a></li>
+          </ul>
+        </li>
+        <li class="menu-item signle-menues"><a routerLink="admin/ViewAssignment"><mat-icon>
+              rate_review</mat-icon><span>View
+              Assignments</span></a></li>
+        <li class="menu-item signle-menues"><a routerLink="admin/StudentList"><mat-icon>work</mat-icon><span>Students
+              Data</span></a>
+        </li>
+        <li class="menu-item signle-menues"><a
+            routerLink="admin/ExcelToStudentRegister"><mat-icon>receipt</mat-icon><span>Student
+              Registration</span></a></li>
+        <li class="menu-item signle-menues"><a
+            routerLink="admin/UploadZoomFile"><mat-icon>cloud_upload</mat-icon><span>Upload Zoom File</span></a></li>
+        <li class="menu-item signle-menues"><a routerLink="admin/batch"><mat-icon>create</mat-icon><span>Create
+              Batch</span></a></li>
+
+        <li class="menu-item"><a><mat-icon>featured_play_list</mat-icon><span>Report</span> <i
+              class="fa fa-angle-right"></i></a>
+          <ul class="submenu">
+            <li class="signle-menues"><a
+                routerLink="report/totalNoOfPractices"><mat-icon>library_books</mat-icon><span>Total No. of
+                  Practices</span></a></li>
+
+            <li class="signle-menues"><a
+                routerLink="report/totalNoOfPracticesByDate"><mat-icon>receipt</mat-icon><span>Practices By Date</span></a></li>
+            <li class="signle-menues"><a
+                routerLink="report/activeInactiveStudents"><mat-icon>report</mat-icon><span>Active-Inactive
+                  Data</span></a></li>
+
+            <li class="signle-menues"><a routerLink="report/execptionReport"><mat-icon>report</mat-icon><span>Exception
+                  Report</span></a></li>
+          </ul>
+        </li>
+
+        <li class="menu-item signle-menues"><a
+            routerLink="admin/UploadQuiz"><mat-icon>cloud_upload</mat-icon><span>Upload
+              Quiz</span></a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>

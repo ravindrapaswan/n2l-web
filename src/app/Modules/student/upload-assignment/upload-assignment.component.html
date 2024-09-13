@@ -1,0 +1,125 @@
+<div class="srow load_circles_transbg" *ngIf="loader">
+    <div class="load_circles">
+        <mat-spinner></mat-spinner>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="srow clrleft card_details dashb_info">
+            <h1 class="admin_heading_h1">Upload Assignment</h1>
+            <div class="srow clrleft dashboard-details">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <form [formGroup]="AssignmentForm">
+                            <div class="row">
+                                <div class="col-md-3 mb-3">
+                                    <!-- <label class="form-label">Course Name</label>
+                                        <select class="form-control" formControlName="CourseId"
+                                            (change)="onCourseChange($event)">
+                                            <option value="">--Choose course--</option>
+                                            <option *ngFor="let c of course" [value]="c.courseid">{{ c.coursename }}
+                                            </option>
+                                        </select> -->
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Course Name</mat-label>
+                                        <mat-select formControlName="CourseId" [(value)]="selectedCourseId"
+                                            (selectionChange)="onCourseChange($event.value)" required>
+                                            <mat-option *ngFor="let c of course" [value]="c.courseid">{{
+                                                c.coursename }}</mat-option>
+                                        </mat-select>
+                                        <mat-error>Select Course</mat-error>
+                                    </mat-form-field>
+
+                                </div>
+                                <div class="col-md-3 mb-3">
+
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Assignment Name</mat-label>
+                                        <mat-select formControlName="AssignmentTypeId"
+                                            [(value)]="selectedassignmentTypeId"
+                                            (selectionChange)="onAssignmentChange($event.value)" required>
+                                            <mat-option *ngFor="let a of Assignments" [value]="a.assignmenttypeid">{{
+                                                a.assignmenttype }}</mat-option>
+                                        </mat-select>
+                                        <mat-error>Select Assignment Type</mat-error>
+                                    </mat-form-field>
+                                </div>
+                                
+                                <div class="col-md-3 mb-3 set_position_right">
+                                    <div class="input-files">
+                                        <Label>FileType - <span>{{filetTypeName}}</span></Label>
+                                        <input #AssigFile type="file" class="form-control" (change)="selectPhoto($event)"
+                                            [accept]="fileType">
+                                    </div>
+                                </div>
+                                <div class="col-md-2 mb-3">
+                                    <div class="srow get_points">
+                                        <label class="form-label">Points -</label>
+                                        <span>{{points}}</span>
+                                        <!-- <span>999</span> -->
+                                    </div>
+                                </div>
+                                <div class="col-md-1 mb-3">
+                                    <button mat-raised-button color="primary" (click)="uploadAssignment()"
+                                        class="btn_full mtres-10">Upload</button>
+                                </div>
+                            </div>
+                        </form>
+
+                        <br>
+                        <h2>Uploaded Assignments</h2>
+                        <div id="table_scroll" #TABLE class="srow table-responsive">
+                            <table mat-table #table [dataSource]="dataSource" class="mat-elevation-z8" id="data_table">
+                                <ng-container matColumnDef="name">
+                                    <th mat-header-cell *matHeaderCellDef>Name</th>
+                                    <td mat-cell *matCellDef="let row">{{row.name}}</td>
+                                </ng-container>
+                                <ng-container matColumnDef="coursename">
+                                    <th mat-header-cell *matHeaderCellDef>Course Name</th>
+                                    <td mat-cell *matCellDef="let row">{{row.coursename}}</td>
+                                </ng-container>
+                                <ng-container matColumnDef="uploaddate">
+                                    <th mat-header-cell *matHeaderCellDef>Uploaded Date</th>
+                                    <td mat-cell *matCellDef="let row"> {{row.uploaddate | date: 'dd-MM-yyyy'}} </td>
+                                </ng-container>
+                                <ng-container matColumnDef="assignmenttype">
+                                    <th mat-header-cell *matHeaderCellDef>Assignment Type</th>
+                                    <td mat-cell *matCellDef="let row"> {{row.assignmenttype}} </td>
+                                </ng-container>
+                                <ng-container matColumnDef="typedescription">
+                                    <th mat-header-cell *matHeaderCellDef>Description</th>
+                                    <td mat-cell *matCellDef="let row">{{row.typedescription}}</td>
+
+                                </ng-container>
+                                <ng-container matColumnDef="filetype">
+                                    <th mat-header-cell *matHeaderCellDef>File Type</th>
+                                    <td mat-cell *matCellDef="let row">
+                                        <p>{{row.filetype}}</p>
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="view">
+                                    <th mat-header-cell *matHeaderCellDef>File</th>
+                                    <td mat-cell *matCellDef="let row"><button mat-mini-fab color="primary"
+                                            (click)="viewFile(row.url,row.filepath,row.filetype)">
+                                            <mat-icon>cloud_download</mat-icon>
+                                        </button>
+                                    </td>
+                                </ng-container>
+
+                                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                                <!-- <tr class="mat-row" *matNoDataRow>
+                                    <td class="mat-cell" colspan="5">No data matching the filter "{{input.value}}"</td>
+                                </tr> -->
+                            </table>
+                        </div>
+                        <div class="srow">
+                            <mat-paginator [pageSizeOptions]="[30, 60, 100]" id="paginator"></mat-paginator>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

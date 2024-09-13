@@ -1,0 +1,161 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200;300;400;500;600;700&display=swap');
+* {margin:0; padding:0; box-sizing:border-box; -webkit-box-sizing:border-box;}
+body {margin:0; padding:0; box-sizing:border-box; -webkit-box-sizing:border-box;}
+
+.srow, .btn_full {width:100%;}
+.clrleft {float:left;}
+.clrright {float:right;}
+
+/* /MARGIN CSS/ */
+.btn_mt28 {margin-top: 28px;}
+
+.mb-0 {margin-bottom:0;}
+.mr-10 {margin-right: 10px;}
+
+/* /PADDING CSS/ */
+.pt_0 {padding-top: 0;}
+.pt_20 {padding-top:20px;}
+.pt_40 {padding-top:40px;}
+.pb_20 {padding-bottom:20px;}
+.pb_40 {padding-bottom:40px;}
+.pb_70 {padding-bottom:70px;}
+
+.text_right_respons {text-align: right;}
+
+/* Background css */
+.o_light_bg {border: 1px solid #f5cdab; background-image:url(../../assets/images/earned-points-bg.png); background-size: cover; height: 400px;}
+.b_light_bg {border: 1px solid #70cfe5; background-image:url(../../assets/images/spent-points-bg.png); background-size: cover; height: 400px;}
+.cards_points {padding-left: 40%; padding-top: 20%;}
+.mat-mdc-form-field {width: 100%; position: relative;}
+
+/* BUTTON CSS */
+.btn_custom {padding: 5px 10px; border: none; border-radius: 5px;}
+.btn_primary {background-color: #9b9bf1; color: #fff;}
+.btn_success {background-color: #00a5dc; color: #fff;}
+.btn_primary .mat-icon {font-size: 20px; margin-left: 5px; float: right; width: inherit; height: inherit;}
+.btn_primary span {float: left; }
+
+.mt_28dsk {margin-top: 28px;}
+
+/* iframe css */
+/* .cdk-overlay-pane {width: 60%;}
+.cdk-overlay-pane iframe {height: 400px;} */
+
+.excle_download {box-shadow: 2px 2px 5px #dfdfdf; display: inline-block; padding: 10px; border-radius: 5px; border: 1px solid #e9e9e9; margin-top: 5px; cursor: pointer;}
+.excle_download:hover {box-shadow:2px 2px 5px #9b9bf1;}
+
+.popimgs_icon {position: absolute; right: 0; top: 0; background: #ffffff; border-radius: 0 0 0 15px; cursor: pointer;}
+.popimgs_icon:hover {color: #f00;}
+
+
+/* HEADING CSS */
+.admin_title_h1 {position: relative; font-size: 25px !important; border-bottom: 1px solid #3f15be; padding-bottom: 10px; margin-bottom: 20px !important; color: #3f15be;}
+.admin_title_h1::after {content: ''; width: 100px; height: 5px; left: 0; right: 0; margin: 0 auto; background: #156ebe; position: absolute; bottom: -3px; border-radius: 10px;}
+.admin_heading_h1 {position: absolute; left: 0;top: -35px; letter-spacing: 15px!important; font-size: 25px !important; background: #fff; padding: 15px; color: #3534bb;}
+
+.text-right {text-align:right;}
+
+.input-files {border: 1px solid #9c9c9c; padding: 9px 10px; border-radius: 5px; position: relative;}
+.input-files:hover {border: 1px solid #2f2f2f;}
+.input-files label {position: absolute; left: 10px; top:-18px; background: #fff; padding: 5px; font-size: 12px;}
+ .input-files input[type="file"].form-control {padding: 5px; border: 1px solid #fff;} /*color: transparent; width: 50%; */
+.input-files input[type="file"].form-control::-webkit-file-upload-button, .input-files input[type="file"].form-control:hover::-webkit-file-upload-button {background:none;}
+.input-files input[type="file"].form-control:focus {box-shadow: 0 0 0 0.2rem rgba(256, 256, 256, 0);}
+
+/* CARD CSS */
+.card_details {padding: 30px; border: 1px solid #6563ff; border-radius: 10px 0 10px 10px; margin-top: 50px; margin-bottom: 20px; position: relative;}
+.card_details button.btn_edit {background: rgb(101, 99, 255); border-radius: 50% 0 50% 50%; width: 40px; height: 40px; position: absolute; right: 0; top: 0; border: none; color: #fff;}
+.pic_thumb figure {margin: 0; background: #ddd; border-radius: 50%; overflow: hidden; text-align: center; width: 150px; height: 150px; display: inline-block;}
+.pic_thumb figure img {border-radius: 50%;}
+.play_student_card h2 {font-family: 'Oswald', sans-serif;}
+.play_student_card figure {width: 40%; margin: 0 auto;}
+
+.set_position_right {position: relative;}
+.set_position_right small {position: absolute; right: 15px; top: -20px; color: #0c8110;}
+
+body {background-image: url('../images/texture-bg.jpg'); background-size:cover;}
+/*HEADER menu */
+.main_bannerBackground {background: url(../images/bg-right.png) no-repeat; background-position: right; background-size: contain;}
+.h_logo a {width:100%; display:inline-block;}
+.m_menu {text-align:center; margin-top: 30px;}
+.m_menu ul {list-style:none; display:inline-block;}
+.m_menu ul li {float:left; margin-right:20px;}
+.m_menu ul li a {text-decoration:none; color:#616d8a; padding:13px 20px; display:inline-block; border:3px solid rgba(256,256,256,0.0); border-radius:3px;}
+.m_menu ul li a:hover {color:#156ebe;}
+.m_menu ul li a:focus {border:3px solid #74c0fc;}
+.home_infos {padding: 40px;}
+.home_infos h2 {position:relative; text-transform: uppercase; color: #8a2312; letter-spacing: 9px !important; border-bottom: 1px solid #f3f3f3; padding-bottom: 30px; font-size: 30px !important;}
+.home_infos #h_login_head::after {position: absolute; content: 'LOGIN'; left: -5px; top: -15px; color: #e9e9e9; z-index: -1; letter-spacing: 13px; font-weight: 700; font-size: 2em;}
+.home_infos #h_register_head::after {position: absolute; content: 'REGISTER'; left: -5px; top: -15px; color: #e9e9e9; z-index: -1; letter-spacing: 13px; font-weight: 700; font-size: 2em;}
+.home_slider_front {position: relative;}
+.home_slider_front figure {position: absolute; top: 75px; right: -52px; background: url(../images/pc-bg.png) no-repeat; background-size: contain; width: 550px; height: 440px;}
+.home_slider_front figure img {width: 93%; border-radius: 10px; float: left; margin-left: 15px; margin-top: 15px;}
+.event-banner {height: 395px;}
+.c_control {position:absolute; top:37%; color:#ddd; font-size:2em; cursor:pointer;}
+.c_control:hover {color:#000;}
+.c_control_prev {left:-20px;}
+.c_control_next {right:-20px;}
+.f_footers {border-top:1px solid #ededed; padding:10px 0; float:left;}
+.desk_footer {border-top:1px solid #ededed; padding: 10px 0; position: fixed;bottom:0;}
+/* .cdk-video-modal video {max-width: 100%; height: auto;}
+.cdk-video-modal {height: 430px;} */
+.cdk-video-modal video {width: 100%;}
+
+/* /DASHBOARD CSS/ */
+.d_mains {position:absolute; left:0; top:0; width:100%; transition: left 0.5s ease-in-out; -webkit-transition: left 0.5s ease-in-out; height: 100vh;}
+.active_l_padd {left:18%; width:82%;}
+.d_header {background:#caccd1;}
+.slide_btn_info {width: 88%; position: absolute; top: 405px; right: 0;}
+.slide_btn_info span:last-child {float: right;}
+.slide_btn_info span a {padding: 5px 10px; border: 1px solid #ddd; color: #000; font-size: 14px; text-decoration: none; border-radius: 5px; display: inline-block; background: #ececfd;}
+.slide_btn_info span a:hover {background:#6464c7; color: #fff;}
+.slide_btn_info span:last-child a {background:#6464c7; color: #fff;}
+.slide_btn_info span:last-child a:hover {background: #ececfd; color: #000;}
+.slide_btn_info span a i {margin-left: 5px;}
+.d_opt_input input[type="text"] {width: 40px; float: left; margin-right: 5px; border: 1px solid #5485fb;}
+.main_n2l {min-height: 570px;}
+.over-active {display: none; background: rgba(0,0,0,0.5); width: 100%; height: 100%; position: fixed; left: 0; top: 0; z-index: 1;}
+.pop_boxes {padding: 0 30px 30px;}
+.event_buttons {margin-top: 20px;}
+
+/* For Load Speaner css */
+.load_circles_transbg {background: rgba(0,0,0,0.3); position: absolute; height: 100%; left: 0; top: 0; z-index: 1;}
+.load_circles {position: absolute; left: 15%; right: 0; top: 30%; margin: 0 auto; width: 50px; }
+.load_circles .mat-mdc-progress-spinner {width: 40px!important; }
+.admin_info small {margin-top: -8px; margin-left: -8px; font-size: 12px; color: #3954e9;}
+.mdc-dialog__surface {overflow-y: hidden!important;}
+
+
+@media only screen and (max-width:767px) {
+    .main_content {background: none;}
+    .event-banner {height: auto;}
+    .btn-desk-normal-w {width: 100%;}
+    .o_light_bg {border: 1px solid #f5cdab; background-image:url(../../assets/images/earned-points-ver-bg.png); background-size: cover; height: auto;}
+    .b_light_bg {border: 1px solid #70cfe5; background-image:url(../../assets/images/spent-points-ver-bg.png); background-size: cover; height: auto;}
+    .cards_points {padding-left: 0; padding-top: 50%;}
+    .text_right_respons {text-align: center;}
+    .h_logo figure {text-align: center; margin-top: 10px;}
+    .h_logo figure img {width: 30%;}
+    .m_menu ul {padding-left: 0; margin-bottom: 0;}
+    .m_menu ul li {margin-right: 10px;}
+    .m_menu ul li:last-child {margin-right: 0;}
+    .m_menu ul li a {padding: 5px;}
+    .home_infos {padding: 20px;}
+    .home_infos #h_login_head::after {font-size: 1.5em;}
+    .home_infos h2 {padding-bottom: 10px;}
+    .cdk-overlay-pane {width: 80%;}
+    .cdk-overlay-pane iframe {height: auto;}
+    .mob-over-active {display: block;}
+    .admin_heading_h1 {font-size: 16px!important; margin-bottom: 0!important; letter-spacing: normal!important; left: 20px; top: -23px; padding: 5px;}
+    .card_details {padding: 15px;}
+    .pop_boxes {padding: 0 15px;}
+    .card_details .mat-typography h2 {font-size: 16px; text-align: center; color: #000;}
+    .form-label {font-size: 14px; color: #000;}
+    .smiley_emoji_ico .item {margin-right: 10px;}
+    .admin_info small {margin-top:0; margin-left:0;}
+    .cdk-video-modal {height: 100%;}
+    .home_slider_front figure {position: inherit; top: 0; right: 0; width: 95%; height: 280px; margin: 0 10px;}
+    .home_slider_front figure img {width: 93.5%; border-radius: 5px; margin-left: 10px; margin-top: 9px;}
+    .slide_btn_info {width: 80%; position: inherit; top: 0; right: 0; float: left;  margin: 10px 25px 0;}
+    .desk_footer {position: inherit; float:left;}
+}

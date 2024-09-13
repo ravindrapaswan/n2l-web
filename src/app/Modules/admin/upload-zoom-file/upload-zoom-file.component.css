@@ -1,0 +1,9 @@
+.dashb_info {
+    margin-top: 20px;
+}
+
+@media only screen and (max-width:767px) {
+    .mtres-10 {
+        margin-top: 0;
+    }
+}

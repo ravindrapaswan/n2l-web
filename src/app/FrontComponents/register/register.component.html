@@ -1,0 +1,141 @@
+<!-- <form id="register_new" [formGroup]="VarificationForm"> -->
+    <div class="srow clrleft pop_boxes">
+<div class="row">
+    <div class="col-md-4 offset-md-4">
+        <div class="srow clrleft card_details">
+            <h1 class="admin_heading_h1" *ngIf="RegisterBox">Register</h1>
+            <h1 class="admin_heading_h1" *ngIf="OtpInputBox">OTP</h1>
+            <h1 class="admin_heading_h1" *ngIf="PasswordBox">Password</h1>
+            <div class="srow clrleft pt_40">
+                <form [formGroup]="GenerateOtpForm">
+                    <!-- Registration Form -->
+                    <div class="row" *ngIf="RegisterBox==true">
+                        <h2 class="text-center" style="color: red;" *ngIf="NotVerified">OTP Verification Failed!
+                            <mat-icon>mobile_off</mat-icon> Try again.</h2>
+                        <div class="col-lg-12 mb-3">
+                            <mat-form-field appearance="outline" style="width: 100%">
+                                <mat-label>Name</mat-label>
+                                <input autocomplete="off" formControlName="Name" matInput
+                                    placeholder="Please Enter Full Name" required>
+                                <mat-error>Please Enter Full Name</mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-lg-12 mb-3">
+                            <mat-form-field appearance="outline" style="width: 100%">
+                                <mat-label>Mobile Number</mat-label>
+                                <input autocomplete="off" formControlName="MobileNumber" matInput
+                                    placeholder="Please Enter Mobile Number" required>
+                                <mat-error *ngIf="!GenerateOtpForm.controls['MobileNumber'].valid">Please Enter 10 Digit
+                                    Mobile Number</mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-lg-12 mb-3">
+                            <mat-form-field appearance="outline" style="width: 100%">
+                                <mat-label>Email</mat-label>
+                                <input autocomplete="off" formControlName="email" matInput
+                                    placeholder="Please Enter Email">
+                                <mat-error *ngIf="!GenerateOtpForm.controls['email'].valid">Please Enter Valid
+                                    Email</mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-lg-12 text-center">
+                            <button type="button" mat-raised-button color="primary" (click)="generateOTP()"
+                                [disabled]="!GenerateOtpForm.valid">Register</button>
+                        </div>
+
+                    </div>
+                    <!-- OTP Box -->
+                    <div class="row" *ngIf="OtpInputBox==true">
+                        <div class="srow clrleft dashboard-details">
+                            <h3 class="text-center" style="color: blue;"  *ngIf="GenerateOtpForm.controls['MobileNumber'].value !== '' && GenerateOtpForm.controls['email'].value == ''">Please check your mobile for OTP</h3>
+                            <h3 class="text-center" style="color: blue;" *ngIf="GenerateOtpForm.controls['email'].value !== '' && GenerateOtpForm.controls['MobileNumber'].value !== ''">Please check your mobile and email for OTP</h3>
+                            <div class="row">
+                                <div class="col-lg-12 mb-3 text-center">
+                                    <div class="d_opt_input">
+                                        <h3 class="mb-0">Please Enter Mobile OTP</h3>
+                                        <div class="mob_otps">
+                                            <ng-otp-input (onInputChange)="onMobileOtpChange($event)"
+                                                [config]="{length:4,allowNumbersOnly: true, isPasswordInput: true,disableAutoFocus:true, inputStyles: {border: '1px solid #3534bb'}}"></ng-otp-input>
+                                            <div class="mobile_icocheck">
+                                                <mat-icon *ngIf="verified==true"
+                                                    style="color: green; ">mobile_friendly</mat-icon>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12 text-center"
+                                    *ngIf="GenerateOtpForm.controls['email'].value !== ''">
+                                    <div class="d_opt_input">
+                                        <h3 class="mb-0">Please Enter Email OTP</h3>
+                                        <div class="mob_otps">
+                                            <ng-otp-input (onInputChange)="onEmailOtpChange($event)"
+                                                [config]="{length:4,allowNumbersOnly: true,
+                                                            isPasswordInput: true, disableAutoFocus:true, inputStyles: {border: '1px solid #3534bb'}}"></ng-otp-input>
+                                            <div class="mobile_icocheck">
+                                                <mat-icon *ngIf="verified==true"
+                                                    style="color: green;">verified_user</mat-icon>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12 text-center mt-3">
+                                    <button type="button" (click)="VerifyOtp()" [disabled]="(mobileOtp.length!==4)"
+                                        class="btn btn-success">Verify</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <!-- Password Box -->
+                <div class="row" *ngIf="PasswordBox==true">
+                    <form [formGroup]="PasswordForm">
+                        <div class="col-lg-12 mb-4">
+                            <!-- <h2 class="text-success text-center" *ngIf="verified==true">OTP Verification
+                                Successfully<mat-icon>mobile_friendly</mat-icon></h2> -->
+                            <h2 class="text-center" style="color: red;" *ngIf="PassValidation==true">Password and
+                                Confirm Password not Matched!</h2>
+                            <div class="form-group">
+                                <mat-form-field appearance="outline" style="width: 100%">
+                                    <mat-label>Password</mat-label>
+                                    <input autocomplete="off" formControlName="password" matInput
+                                        placeholder="Please Enter Password" type="password" required>
+                                    <mat-error *ngIf="!PasswordForm.controls['password'].valid">Password Pattern length
+                                        6,[A-Z],[0-9]</mat-error>
+                                </mat-form-field>
+
+                            </div>
+                        </div>
+                        <div class="col-lg-12 mb-3">
+                            <div class="form-group">
+                                <mat-form-field appearance="outline" style="width: 100%">
+                                    <mat-label>Confirm Password</mat-label>
+                                    <input autocomplete="off" formControlName="confirmPassword" matInput
+                                        placeholder="Please Confirm Password" type="password" required>
+                                    <mat-error *ngIf="!PasswordForm.controls['password'].valid">Password Pattern length
+                                        6,[A-Z],[0-9]</mat-error>
+                                </mat-form-field>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12 text-center">
+                                <button type="button" [disabled]="!PasswordForm.valid" (click)="checkPassword()"
+                                    class="btn btn-primary">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<!-- </form> -->

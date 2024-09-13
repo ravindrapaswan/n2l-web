@@ -1,0 +1,12 @@
+.contacts-info ul {padding-left: 0; display: inline-block; width: 100%;}
+.contacts-info ul li {position: relative; padding-left: 70px; list-style: none; padding-bottom: 30px; border-bottom: 1px dashed rgba(0,0,0,0.2); margin-bottom: 30px;}
+.contacts-info ul li:last-child {border-bottom: none; padding-bottom: 0; margin-bottom: 0;}
+.contacts-info ul li figure {position: absolute; left: 0; top: 0; width: 40px;}
+.contacts-info ul li h4 {font-weight: 700; margin-bottom: 0; margin-top: 10px;}
+.contacts-info ul li h4 a {text-decoration: none; color: #616d8a; }
+.contacts-info ul li h4 a:hover {color: #6563ff;}
+
+@media only screen and (max-width:767px) {
+    .contacts-info ul li {text-align: center; padding-left: 0;}
+    .contacts-info ul li figure {position: inherit; left: 0; top: 0; width: 40px; margin: 0 auto 10px;}
+}

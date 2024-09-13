@@ -1,0 +1,60 @@
+<div class="srow load_circles_transbg" *ngIf="loader">
+    <div class="load_circles">
+        <mat-spinner></mat-spinner>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6 offset-md-3">
+        <div class="srow clrleft card_details">
+            <h1 class="admin_heading_h1">Profile</h1>
+            <button (click)="edit()" class="btn_edit"><mat-icon> edit </mat-icon></button>
+            <div class="row">
+                <div class="col-md-4 offset-md-2 pic_thumb_mobview">
+                    <div class="srow text-center pic_thumb">
+                        <figure>
+                            <img *ngIf="isProfilePhoto==true" class="profile-photo" [src]="ProfilePhoto"
+                                alt="Profile Photo">
+                            <img *ngIf="isProfilePhoto==false" class="profile-photo" src="assets/images/user_ico2.jpg"
+                                alt="Profile Photo">
+                        </figure>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="profile-details">
+                        <div class="detail-item">
+                            <span class="label">Name:</span>
+                            <span class="value">{{ name }}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="label">Date of Birth:</span>
+                            <span class="value">{{ dob | date:'dd/MM/yyyy' }}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="label">Gender:</span>
+                            <span class="value">{{ gender }}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="label">Mobile Number:</span>
+                            <span class="value">{{ mobilenumber }}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="label">Email:</span>
+                            <span class="value">{{ email }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 offset-md-2 pic_thumb_deskview">
+                    <div class="srow text-center pic_thumb">
+                        <figure>
+                            <img *ngIf="isProfilePhoto==true" class="profile-photo" [src]="ProfilePhoto"
+                                alt="Profile Photo">
+                            <img *ngIf="isProfilePhoto==false" class="profile-photo" src="assets/images/user_ico2.jpg"
+                                alt="Profile Photo">
+                        </figure>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

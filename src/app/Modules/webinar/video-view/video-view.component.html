@@ -1,0 +1,8 @@
+<div class="cdk-video-modal">
+    <mat-dialog-content style="background-color: black;">
+         <!-- <iframe [src]="getSafeVideoUrl(videoUrl)" frameborder="0" allowfullscreen class="srow"></iframe> -->
+        <video width="400" controls>
+            <source [src]="getSafeVideoUrl(videoUrl)" type="video/mp4">
+        </video> 
+    </mat-dialog-content>
+</div>

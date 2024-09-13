@@ -1,0 +1,94 @@
+<div class="srow load_circles_transbg" *ngIf="loader">
+    <div class="load_circles">
+        <mat-spinner></mat-spinner>
+    </div>
+</div> 
+<div class="srow clrleft pop_boxes">
+    <div class="srow clrleft card_details mb-0">
+        <mat-dialog-content class="mat-typography webinar_register">
+            <h1 class="admin_heading_h1">Edit Webinar</h1>
+            <form id="register_new" [formGroup]="WebinarForm" class="pt_20">
+
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <mat-form-field appearance="outline" style="width: 100%">
+                            <mat-label>Topic Name</mat-label>
+                            <input autocomplete="off" formControlName="Topic" matInput placeholder="Enter Topic Name"
+                                required>
+                            <mat-error>Please Enter Topic Name</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <mat-form-field appearance="outline" style="width: 100%">
+                            <mat-label>Duration</mat-label>
+                            <input autocomplete="off" formControlName="Duration" matInput placeholder="Enter Duration"
+                                required>
+                            <mat-error>Please Enter Duration</mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <!-- <label class="form-label">Date</label>
+            
+            <input type="date" class="form-control" formControlName="Date"> -->
+                        <mat-form-field appearance="outline" style="width: 100%;">
+                            <mat-label>Date</mat-label>
+                            <input matInput [matDatepicker]="picker" formControlName="Date" placeholder="yyyy/mm/dd"
+                                required>
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <mat-form-field appearance="outline" style="width: 100%">
+                            <mat-label>Start Time</mat-label>
+                            <input autocomplete="off" formControlName="StartTime" matInput
+                                placeholder="Enter Start Time" required>
+                            <mat-error>Please Enter StartTime</mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <mat-form-field appearance="outline" style="width: 100%">
+                            <mat-label>Description</mat-label>
+                            <input autocomplete="off" formControlName="Description" matInput
+                                placeholder="Enter Description" required>
+                            <mat-error>Please Enter Description</mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <mat-form-field appearance="outline" style="width: 100%">
+                            <mat-label>Zoom Link</mat-label>
+                            <input autocomplete="off" formControlName="ZoomLink" matInput placeholder="Enter Zoom Link"
+                                required>
+                            <mat-error>Please Enter Zoom Link</mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <div class="input-files">
+                            <label>Webinar Banner</label>
+                            <input type="file" class="form-control" (change)="BannerFile($event)" accept="image/*">
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <div class="input-files">
+                            <label>Video</label>
+                            <input type="file" class="form-control" (change)="VideoFile($event)" accept="video/*">
+                        </div>
+                    </div>
+
+
+                    <div class="col-lg-12 text-center">
+                        <button mat-button mat-dialog-close mat-dialog-close color="info">Cancel</button>
+                        <button type="submit" mat-raised-button color="primary"
+                            (click)="UpdateWebinar()">Update</button>
+                    </div>
+                </div>
+            </form>
+        </mat-dialog-content>
+    </div>
+</div>

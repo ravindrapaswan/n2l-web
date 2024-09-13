@@ -1,0 +1,31 @@
+<div *ngIf="isLogin == true">
+    <app-header></app-header>
+    <app-sidebar></app-sidebar>
+
+    <!-- affter login Router serve here -->
+    <div class="main-content">
+        <div class="page-content">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+
+    <app-footer></app-footer>
+</div>
+
+
+<!-- before Login Router Serve here -->
+<div *ngIf="isLogin==false">
+    <!-- Main header Call -->
+    <app-main-header></app-main-header>
+
+    <main class="srow clrleft main_content main_n2l" *ngIf="router.url==='/home'">
+        <router-outlet></router-outlet>
+    </main>
+
+    <main class="srow clrleft main_n2l" *ngIf="router.url !== '/home'">
+        <router-outlet></router-outlet>
+    </main>
+    
+    <!-- Footer -->
+    <app-main-footer></app-main-footer>
+</div>

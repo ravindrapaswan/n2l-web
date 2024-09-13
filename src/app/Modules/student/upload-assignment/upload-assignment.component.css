@@ -1,0 +1,18 @@
+.dashb_info {margin-top: 20px;}
+.get_points {text-align: center;}
+.get_points label {margin-right: 10px;}
+.get_points span {font-size: 20px;
+    font-weight: 700;
+    width: 50px;
+    height: 50px;
+    display: inline-block;
+    background: #6563ff;
+    color: #fff;
+    border-radius: 50%;
+    text-align: center;
+    padding-top: 14px;}
+    .mtres-10 {margin-top: 10px;}
+
+    @media only screen and (max-width:767px) {
+        .mtres-10 {margin-top: 0;}
+    }

@@ -1,0 +1,11 @@
+.event-banner dfn {font-style: normal; float: left; padding-top: 45px; padding-left: 50px; width: 100%; margin-top: -25px;}
+.event-banner dfn a {color: #8a2312; text-decoration: none; border-radius: 5px; width: 100%; display: inline-block; text-transform: uppercase; font-size: 23px; letter-spacing: 2px; font-weight: 500;}
+.event-banner dfn a img {transition: all 0.3s ease 0s; -moz-transition: all 0.3s ease 0s; -o-transition: all 0.3s ease 0s; -webkit-transition: all 0.3s ease 0s; width: auto;}
+.event-banner dfn a:hover img {margin-left: 10px;}
+
+
+@media only screen and (max-width:767px) {
+    .event-banner dfn {padding-top: 0; padding-left: 20px; margin-top: 0; text-align: center;}
+    .event-banner dfn a {font-size: 15px;}
+    .adds_banner {float: left;}
+}

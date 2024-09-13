@@ -1,0 +1,10 @@
+<mat-dialog-content *ngIf="getImage">
+    <span class="popimgs_icon"><a (click)="close()"><mat-icon>close</mat-icon></a></span>
+    <!-- <div class="square-container"> -->
+    <img  [src]="imageURL" class="fit-image">
+    <!-- </div> -->
+</mat-dialog-content>
+
+<mat-dialog-content *ngIf="!getImage">
+    <p>Photot Not Uploaded</p>
+</mat-dialog-content>

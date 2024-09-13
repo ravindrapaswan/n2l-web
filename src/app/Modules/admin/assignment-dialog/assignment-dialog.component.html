@@ -1,0 +1,13 @@
+<!--For Video-->
+<!-- <mat-dialog-content style="background-color: black;" *ngIf="isVideo">
+    <iframe  [src]="getSafeVideoUrl(fileURL)" frameborder="0" allowfullscreen width="710" height="300"></iframe>
+</mat-dialog-content> -->
+
+<!--For Audio-->
+<!-- <mat-dialog-content style="background-color: black;" *ngIf="isAudio"> 
+    <audio controls>
+        <source [src]="fileURL" type="audio/mp3">
+    </audio>
+</mat-dialog-content> -->
+
+<ngx-extended-pdf-viewer *ngIf="isPdf" [src]="fileURL" height="100%" width="100%"></ngx-extended-pdf-viewer>

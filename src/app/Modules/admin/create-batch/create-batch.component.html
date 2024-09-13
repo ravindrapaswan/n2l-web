@@ -1,0 +1,299 @@
+<div class="srow load_circles_transbg" *ngIf="loader">
+    <div class="load_circles">
+        <mat-spinner></mat-spinner>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="srow clrleft card_details dashb_info">
+            <h1 *ngIf="isforUpdate==false" class="admin_heading_h1">Create Batch</h1>
+            <h1 *ngIf="isforUpdate==true" class="admin_heading_h1">Update Batch</h1>
+            <div class="srow clrleft dashboard-details">
+                <div class="row">
+                    <div class="col-lg-12">
+
+                        <form [formGroup]="CreateBatchForm">
+                            <div class="row">
+                                <!-- Select Course -->
+                                <div class="col-md-3 mb-3">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Select Course</mat-label>
+                                        <mat-select formControlName="courseid">
+                                            <mat-option *ngFor="let courses of courseList" [value]="courses.courseid">
+                                                {{courses.coursename}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+
+                                <!-- Batch Name -->
+                                <div class="col-md-3 mb-3">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Batch Name</mat-label>
+                                        <input type="text" matInput formControlName="batchname"
+                                            placeholder="Enter Batch Name">
+                                        <mat-error>Please Enter Bacth Name</mat-error>
+                                    </mat-form-field>
+                                </div>
+
+                                <!-- from Date -->
+                                <div class="col-md-3 mb-3">
+                                    <mat-form-field appearance="outline" style="width: 100%; position: relative;">
+                                        <mat-label>From Date</mat-label>
+                                        <input matInput [matDatepicker]="pickerFrom" formControlName="fromdate"
+                                            placeholder="dd/MM/yyyy" required>
+                                        <mat-datepicker-toggle matSuffix [for]="pickerFrom"></mat-datepicker-toggle>
+                                        <mat-datepicker #pickerFrom></mat-datepicker>
+                                        <mat-error
+                                            *ngIf="CreateBatchForm.get('fromdate')?.errors?.['fromDateGreaterThanToDate']">
+                                            From Date cannot be greater than To Date
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+
+                                <!-- To Date -->
+                                <div class="col-md-3 mb-3">
+                                    <mat-form-field appearance="outline" style="width: 100%; position: relative;">
+                                        <mat-label>To Date</mat-label>
+                                        <input matInput [matDatepicker]="pickerTo" formControlName="todate"
+                                            placeholder="dd/MM/yyyy" required>
+                                        <mat-datepicker-toggle matSuffix [for]="pickerTo"></mat-datepicker-toggle>
+                                        <mat-datepicker #pickerTo></mat-datepicker>
+                                        <mat-error
+                                            *ngIf="CreateBatchForm.get('todate')?.errors?.['toDateLessThanFromDate']">
+                                            To Date cannot be less than From Date
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+
+                                <!-- *************************************************** testing api-->
+                                <!-- <form [formGroup]="CreateBatchForm" (ngSubmit)="TestingApi()">
+
+                                  <input type="file" id="fileInput" accept="audio/*" />
+
+                                  <button type="submit">Upload Audio</button>
+                                </form> -->
+
+                                 <!-- ***************************************************** -->
+
+                            </div>
+
+                            <div class="row">
+                                <!-- Select Students -->
+                                <div class="col-md-5 mb-3">
+                                  <mat-form-field appearance="outline" (click)="checkStudents()">
+                                      <mat-label>Add Students</mat-label>
+
+                                      <mat-select [formControl]="studentids" multiple>
+
+                                        <!-- added search functionalities by ravindra -->
+                                        <mat-form-field appearance="outline">
+                                          <mat-label>Search Student</mat-label>
+                                          <input matInput placeholder="Enter Name or Number"
+                                                 (input)="filterStudents($event.target)">
+                                        </mat-form-field>
+
+                                        <mat-select-trigger>{{ getSelectedStudentIDs() || 'Select Students' }}</mat-select-trigger>
+                                        <mat-checkbox color="primary" (change)="toggleSelectAll($event.checked)">Select All</mat-checkbox>
+
+                                        <mat-option *ngFor="let student of studentList" [value]="student.userid">
+                                            {{ student.userid }} - {{ student.name }} - {{ student.mobilenumber }}
+                                        </mat-option>
+
+                                      </mat-select>
+
+                                  </mat-form-field>
+                              </div>
+
+                              <div class="col-md-2">
+                                  <button *ngIf="isforUpdate==false" mat-raised-button color="primary" (click)="CreateBatch()">Create</button>
+                                  <button *ngIf="isforUpdate==true" mat-raised-button color="primary" (click)="UpdateBatch($event)">Add</button>
+                              </div>
+
+                              <!-- Global Search *************************************************** -->
+                              <div class="col-md-5 mb-3" *ngIf="isEditMode">
+                                <mat-form-field appearance="outline">
+                                  <mat-label>Search Student</mat-label>
+
+                                  <!-- Search Input with Search Icon -->
+                                  <mat-icon matPrefix>search</mat-icon>
+                                  <input class="searchContainer" matInput placeholder="Enter Name or Number"
+                                         (input)="filterStudentsGlobally($event.target)"
+                                         isDropdownVisible = "true"
+                                         (click)="isDropdownVisible = true"
+                                         (document:click)="handleClickOutside($event)">
+
+                                  <!-- Student List -->
+                                  <mat-select panelClass="custom-panel" *ngIf="isDropdownVisible">
+                                    <mat-option *ngFor="let student of filteredstudentsglobally" (click)="$event.stopPropagation()">
+                                      <!-- Student Information -->
+                                      <div class="studentItem">
+                                        {{ student.userid }} - {{ student.name }} - {{ student.mobilenumber }}
+
+                                        <!-- Add/Delete Button -->
+                                        <button mat-icon-button color="primary"
+                                                (click)="isStudentInBatch(student) ? deleteStudentFromCurrentBatch(student.userid) : deleteStudentFromAnotherBatch(student)">
+                                          <mat-icon>
+                                            {{ isStudentInBatch(student) ? 'delete' : 'add' }}
+                                          </mat-icon>
+                                        </button>
+                                      </div>
+
+                                      <!-- Batch Name Display -->
+                                      <p class="mat-body-2 text-primary custom-paragraph">
+                                        {{ student.isdeleted == 0 ? student.batchname : 'No Batch' }}
+                                      </p>
+
+                                      <!-- Horizontal Line -->
+                                      <hr class="divider">
+                                    </mat-option>
+                                  </mat-select>
+
+                                </mat-form-field>
+                              </div>
+
+
+                              <!-- ********************************************************************* -->
+
+
+                            </div>
+
+
+
+
+                        </form>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <h2 *ngIf="isforUpdate==false">Batch List :</h2>
+                    <h2 *ngIf="isforUpdate==true">Edit Student List :</h2>
+                </div>
+                <!-- Table Batch List -->
+                <div class="row" *ngIf="isforUpdate==false">
+                    <div class="col-lg-12">
+                        <div id="table_scroll" #TABLE class="srow table-responsive">
+                            <table mat-table #table [dataSource]="dataSourceBatch" class="mat-elevation-z8" id="data_table">
+
+                                <ng-container matColumnDef="sno">
+                                    <th mat-header-cell *matHeaderCellDef>Sno</th>
+                                    <td mat-cell *matCellDef="let row; let i = index">{{ i + 1 }}</td>
+                                </ng-container>
+                                <ng-container matColumnDef="coursename">
+                                    <th mat-header-cell *matHeaderCellDef>Course Name</th>
+                                    <td mat-cell *matCellDef="let row">{{row.coursename}}</td>
+                                </ng-container>
+                                <ng-container matColumnDef="batchname">
+                                    <th mat-header-cell *matHeaderCellDef>Batch Name</th>
+                                    <td mat-cell *matCellDef="let row"> {{row.batchname}} </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="noofstudents">
+                                    <th mat-header-cell *matHeaderCellDef>No. of Students</th>
+                                    <td mat-cell *matCellDef="let row">
+                                      <button mat-mini-fab color="primary"
+                                            (click)="getBatchbyBatchid(row.batchid)">
+                                            {{row.noofstudents}}
+                                        </button>
+                                    </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="fromdate">
+                                    <th mat-header-cell *matHeaderCellDef>To Date</th>
+                                    <td mat-cell *matCellDef="let row"> {{row.fromdate}} </td>
+                                </ng-container>
+                                <ng-container matColumnDef="todate">
+                                    <th mat-header-cell *matHeaderCellDef>To Data</th>
+                                    <td mat-cell *matCellDef="let row"> {{row.todate}} </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="edit">
+                                    <th mat-header-cell *matHeaderCellDef>Edit</th>
+                                    <td mat-cell *matCellDef="let row">
+                                        <button mat-mini-fab color="accent" (click)="editAndAccessStudent(row.batchid)">
+                                            <mat-icon>edit</mat-icon>
+                                        </button>
+                                    </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="delete">
+                                    <th mat-header-cell *matHeaderCellDef>Delete</th>
+                                    <td mat-cell *matCellDef="let row">
+                                        <button mat-mini-fab color="warn" >
+                                            <mat-icon>delete</mat-icon>
+                                        </button>
+                                    </td>
+                                </ng-container>
+
+                                <tr mat-header-row *matHeaderRowDef="displayedColumnsBatch"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumnsBatch;"></tr>
+                                <!-- <tr class="mat-row" *matNoDataRow>
+                                    <td class="mat-cell" colspan="5">No data matching the filter "{{input.value}}"</td>
+                                </tr> -->
+                            </table>
+
+                        </div>
+                        <div class="srow">
+                            <mat-paginator [pageSizeOptions]="[30, 60, 100]" id="paginator"></mat-paginator>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Table Student List -->
+                <div class="row" *ngIf="isforUpdate==true">
+                    <div class="col-lg-12">
+                        <div id="table_scroll" #TABLE class="srow table-responsive">
+                            <table mat-table #table [dataSource]="dataSourceStudent" class="mat-elevation-z8" id="data_table">
+
+                                <ng-container matColumnDef="sno">
+                                    <th mat-header-cell *matHeaderCellDef>Sno</th>
+                                    <td mat-cell *matCellDef="let row; let i = index">{{ i + 1 }}</td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="name">
+                                    <th mat-header-cell *matHeaderCellDef>Name</th>
+                                    <td mat-cell *matCellDef="let row">{{row.name}}</td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="mobilenumber">
+                                    <th mat-header-cell *matHeaderCellDef>Mobile Number</th>
+                                    <td mat-cell *matCellDef="let row"> {{row.mobilenumber}} </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="photo">
+                                    <th mat-header-cell *matHeaderCellDef>Photo</th>
+                                    <td mat-cell *matCellDef="let row">
+                                        <img class="rounded-circle header-profile-user"
+                                            [src]="row.photo ? s3Url + row.photo : userPhoto" alt="Header Avatar">
+                                    </td>
+                                </ng-container>
+
+                                <!-- ************************* added a delete button by ravindra -->
+                                <ng-container matColumnDef="delete">
+                                  <th mat-header-cell *matHeaderCellDef>Delete</th>
+                                  <td mat-cell *matCellDef="let row">
+                                    <button mat-mini-fab color="warn" (click)="deleteStudentFromCurrentBatch(row.studentid)">
+                                      <mat-icon>delete</mat-icon>
+                                    </button>
+                                  </td>
+                                </ng-container>
+
+
+                                <tr mat-header-row *matHeaderRowDef="displayedColumnsStudent"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumnsStudent;"></tr>
+                                <!-- <tr class="mat-row" *matNoDataRow>
+                                                <td class="mat-cell" colspan="5">No data matching the filter "{{input.value}}"</td>
+                                            </tr> -->
+                            </table>
+
+                        </div>
+                        <div class="srow">
+                            <br>
+                            <br>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
