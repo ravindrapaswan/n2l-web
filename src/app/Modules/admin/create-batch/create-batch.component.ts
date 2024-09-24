@@ -79,6 +79,8 @@ export class CreateBatchComponent {
     this.getCourse();
     this.getBatch();
     this.initializeData();
+
+
   }
 
   ngOnInit(): void {
@@ -109,6 +111,7 @@ export class CreateBatchComponent {
   checkStudents(){
     console.log("studentList ",this.studentList);
   }
+  
   getAllBatchId(): Promise<void> {
     // console.log("getAllBatchId called");
     this.loader = true;
@@ -159,24 +162,22 @@ export class CreateBatchComponent {
           console.log("Response from API:", res);
 
           if (res.ResponseCode === 800) {
-            // Append new data to the existing allStudentsFromAllBatches array
+
             this.allStudentsFromAllBatches = [
               ...this.allStudentsFromAllBatches,
               ...(res.data ? res.data : [])
             ];
-            console.log('batchid:', batchid);
-            console.log(`all data regarding batchid ${batchid}: `, res.data);
-            console.log("allStudentsFromAllBatches: ", this.allStudentsFromAllBatches);
-            resolve(); // Resolve the promise once the data is appended
+
+            resolve(); 
           } else {
             console.error('Failed to fetch students:', res.ResponseMsg);
-            reject(); // Reject the promise if the response code is not 800
+            reject();
           }
         },
         (error) => {
           this.loader = false;
           console.error('Error fetching students:', error);
-          reject(); // Reject the promise in case of a network or server error
+          reject();
         }
       );
     });
@@ -238,23 +239,14 @@ export class CreateBatchComponent {
  // Method to check if a student is in the current batch
  isStudentInBatch(student: any): boolean {
 
-  return this.batchwisestudents.some(batchStudent => batchStudent.userid === student.userid);
+  return this.batchwisestudents.some(batchStudent => batchStudent.userid === student.userid && batchStudent.isdeleted ===0 && student.isdeleted===0);
  }
 
-// Method to add or delete a student from the current batch
-// toggleStudentInBatch(student: any) {
-//   if (this.isStudentInBatch(student)) {
-//     // Remove student from batch
-//     this.batchwisestudents = this.batchwisestudents.filter(
-//       batchStudent => batchStudent.userid !== student.userid
-//     );
-//   } else {
-//     // Add student to batch
-//     this.batchwisestudents.push(student);
-//   }
-// }
+ isStudentInOtherBatch(student: any): boolean {
 
-// Method to filter students based on search input
+  return this.allStudentsFromAllBatches.some(batchStudent => batchStudent.userid === student.userid && batchStudent.isdeleted===0 && student.isdeleted===0);
+ }
+
 
 filterStudentsGlobally(searchTerm: any) {
   const searchValue = searchTerm.value ? searchTerm.value.trim().toLowerCase() : '';
@@ -269,13 +261,9 @@ filterStudentsGlobally(searchTerm: any) {
 
 }
 
-// *******************************************************************************************************
-  // *****************************************************************************************************
-
-
-
-
-
+showGlobalArray(){
+  console.log("filteredstudentsglobally ",this.filteredstudentsglobally);
+}
 
 
 // <!--  added filter functionalities by ravindra -->
@@ -288,9 +276,10 @@ getStudents() {
     if (res.ResponseCode === 800) {
       // If dataSourceStudent is empty, show all students
       if (this.dataSourceStudent && this.dataSourceStudent.length > 0) {
-        const batchStudentIds = this.dataSourceStudent.map((student: any) => student.userid);
 
+        const batchStudentIds = this.dataSourceStudent.map((student: any) => student.userid);
         this.originalStudentList = res.data.filter((student: any) => !batchStudentIds.includes(student.userid));
+
       } else {
         this.originalStudentList = res.data;  // No filtering needed, display all students
       }
@@ -300,7 +289,7 @@ getStudents() {
       // console.log("studentList from getStudent",this.allStudentWhichAreNotFromAnyBatch);
       // console.log("studentList from getStudent",this.studentList);
 
-      this.allStudent = [...this.originalStudentList];
+      this.allStudent = res.data;
 
     }
   });
@@ -396,36 +385,21 @@ acceseStudent(batchid: number): Promise<void> {
   });
 }
 
-// ======================================================================================================
 
-  // <!--  added search functionalities by ravindra -->
-  // filterStudents(searchTerm: any) {
-  //   const searchValue = searchTerm.value ? searchTerm.value.trim().toLowerCase() : '';
+filterStudents(searchTerm: any) {
+  const searchValue = searchTerm.value ? searchTerm.value.trim().toLowerCase() : '';
 
-  //   if (searchValue) {
-  //     this.studentList = this.originalStudentList.filter((student: any) =>
-  //       student.name.toLowerCase().includes(searchValue) || student.mobilenumber.toString().includes(searchValue)
-  //     );
-  //     console.log(this.studentList);
-  //   } else {
-  //     this.studentList = [...this.originalStudentList];
-  //   }
-  // }
+  if (searchValue) {
+    this.studentList = this.allStudentWhichAreNotFromAnyBatch.filter((student: any) =>
+      student.name.toLowerCase().includes(searchValue) || student.mobilenumber.toString().includes(searchValue)
+    );
+  } else {
 
-  filterStudents(searchTerm: any) {
-    const searchValue = searchTerm.value ? searchTerm.value.trim().toLowerCase() : '';
-
-    if (searchValue) {
-      this.studentList = this.allStudentWhichAreNotFromAnyBatch.filter((student: any) =>
-        student.name.toLowerCase().includes(searchValue) || student.mobilenumber.toString().includes(searchValue)
-      );
-    } else {
-
-      this.studentList = [...this.allStudentWhichAreNotFromAnyBatch];
-
-    }
+    this.studentList = [...this.allStudentWhichAreNotFromAnyBatch];
 
   }
+
+}
 
   // ****************************************************************************
 
@@ -458,7 +432,9 @@ acceseStudent(batchid: number): Promise<void> {
     return null;
   }
 
-  CreateBatch() {
+  CreateBatch(event :any) {
+    event.preventDefault();
+    
     const formattedFromDate = this.datePipe.transform(this.CreateBatchForm?.get('fromdate')?.value, 'yyyy-MM-dd');
     const formattedToDate = this.datePipe.transform(this.CreateBatchForm?.get('todate')?.value, 'yyyy-MM-dd');
 
@@ -476,7 +452,10 @@ acceseStudent(batchid: number): Promise<void> {
     this.adminService.postFunction('admin/createBatch', this.CreateBatchForm.value).subscribe((res: any) => {
       if (res.ResponseCode === 800) {
         this.resetForm();
-        Swal.fire({ icon: 'success', text: res.ResponseMsg, timer: 3000 });
+        Swal.fire({ icon: 'success', text: res.ResponseMsg, timer: 3000 }).then( ()=>{
+          location.reload();
+        } )
+
       } else {
         Swal.fire({ icon: 'error', text: res.ResponseMsg, timer: 3000 });
       }
@@ -500,7 +479,6 @@ acceseStudent(batchid: number): Promise<void> {
   }
 
 
-
   getBatchbyBatchidData(batchid: number) {
     this.adminService.getFunction('admin/getBatch/' + batchid).subscribe((res: any) => {
       if (res.ResponseCode === 800) {
@@ -518,45 +496,6 @@ acceseStudent(batchid: number): Promise<void> {
     const [day, month, year] = dateString.split('-');
     return `${year}-${month}-${day}`;
   }
-
-  // ******************************************************************************************************
-
-  // UpdateBatch() {
-
-  //   console.log("forEditstudentIds from UpdateBatch ",this.forEditstudentIds);
-
-  //   const formattedFromDate = this.datePipe.transform(this.CreateBatchForm?.get('fromdate')?.value, 'yyyy-MM-dd');
-  //   const formattedToDate = this.datePipe.transform(this.CreateBatchForm?.get('todate')?.value, 'yyyy-MM-dd');
-
-  //   this.CreateBatchForm.patchValue({
-  //     fromdate: formattedFromDate,
-  //     todate: formattedToDate,
-  //     userid: this.userid,
-  //     v_isdeletedForBatch: 0,
-  //     batchid: this.BatchId
-  //   });
-
-  //   if (!this.CreateBatchForm.valid) {
-  //     Swal.fire({ icon: 'error', text: 'All fields required', timer: 3000 });
-  //     return;
-  //   }
-
-  //   this.adminService.postFunction('admin/UpdateBatch', this.CreateBatchForm.value).subscribe((res: any) => {
-  //     this.isforUpdate = false;
-  //     if (res.ResponseCode === 800) {
-  //       this.resetForm();
-  //       this.getBatch();
-  //       Swal.fire({ icon: 'success', text: res.ResponseMsg, timer: 3000 });
-  //     } else {
-  //       Swal.fire({ icon: 'error', text: res.ResponseMsg, timer: 3000 });
-  //     }
-  //   });
-  // }
-
-
-  // getSelectedStudentIDs() {
-  //   return this.studentids.value.join(', ');
-  // }
 
   getSelectedStudentIDs(): string {
     const selectedStudentIds = this.studentids.value;
@@ -622,31 +561,44 @@ acceseStudent(batchid: number): Promise<void> {
   }
 // ********************************************************************************************************
 
-  deleteBatch(batchid: number) {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!"
-    }).then((result) => {
-      if (result.isConfirmed) {
-        this.loader = true;
-        this.adminService.postFunction('admin/deleteBatch/' + batchid + '/' + this.userid, this.CreateBatchForm.value).subscribe((res: any) => {
-          this.loader = false;
-          if (res.ResponseCode === 800) {
-            this.acceseBatchWiseStudents(this.BatchId);
-            this.dataSourceBatch = null;
-            Swal.fire({ title: "Deleted!", text: res.ResponseMsg, icon: "success" });
-          } else {
-            Swal.fire({ title: "Error!", text: res.ResponseMsg, icon: "error" });
-          }
-        });
-      }
-    });
-  }
+deleteBatch(batchid: number) {
+  Swal.fire({
+    title: "Are you sure?",
+    text: "You won't be able to revert this!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Yes, delete it!"
+  }).then((result) => {
+    if (result.isConfirmed) {
+      this.loader = true;
+      this.adminService.postFunction('admin/deleteBatch/' + batchid + '/' + this.userid, this.CreateBatchForm.value).subscribe((res: any) => {
+        this.loader = false;
+        if (res.ResponseCode === 800) {
+          this.acceseBatchWiseStudents(this.BatchId);
+          this.dataSourceBatch = null;
+          
+          Swal.fire({
+            title: "Deleted!",
+            text: res.ResponseMsg,
+            icon: "success"
+          }).then(() => {
+            // Reload the page after the success confirmation is acknowledged
+            location.reload();
+          });
+        } else {
+          Swal.fire({
+            title: "Error!",
+            text: res.ResponseMsg,
+            icon: "error"
+          });
+        }
+      });
+    }
+  });
+}
+
 
   // *********************************************************************** new api by ravindra
 
@@ -696,7 +648,7 @@ acceseStudent(batchid: number): Promise<void> {
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: student.batchname ? "Yes, deleted it and ready to add in any batch again!" : "Yes, this student is ready to be added to a batch."
+      confirmButtonText: student.batchname ? "Yes, deleted it and ready to add in another batch again!" : "Yes, this student is ready to be added to a batch."
     }).then((result) => {
       if (result.isConfirmed) {
         this.loader = true;
@@ -708,7 +660,9 @@ acceseStudent(batchid: number): Promise<void> {
             this.dataSourceBatch = null;
             this.getStudents();
             Swal.fire({ title: "Added!", text: res.ResponseMsg, icon: "success" });
-            // location.reload();
+            setTimeout( ()=>{
+              location.reload();
+            }, 1000 )
           } else {
             Swal.fire({ title: "Error!", text: res.ResponseMsg, icon: "error" });
           }
@@ -718,34 +672,38 @@ acceseStudent(batchid: number): Promise<void> {
   }
   // ********************************************************************** Testing Demo api
 
-  // TestingApi() {
-  //   const fileInput: HTMLInputElement = document.getElementById('fileInput') as HTMLInputElement;
-  //   console.log("fileInput ",fileInput.files);
+  TestingApi() {
+    const fileInput: HTMLInputElement = document.getElementById('fileInput') as HTMLInputElement;
 
-  //   if (fileInput.files && fileInput.files.length > 0) {
-  //     const formData = new FormData();
-  //     formData.append('audio', fileInput.files[0]);
-  //     formData.append('StudentId', '1000000002');
-  //     formData.append('DateOfAudioCreation', '2024-09-06 11:11:11');
-  //     formData.append('QuizId', '1007');
-  //     formData.append('single_multi', '1');
-  //     formData.append('friendid', '10013');
-  //     formData.append('courseid', '1000000001');
+    if (fileInput.files && fileInput.files.length > 0) {
+        const formData = new FormData();
+        formData.append('file', fileInput.files[0]);
+        formData.append('StudentId', '10001');
+        formData.append('CourseId', '101');
+        formData.append('AssignmentTypeId', '20');
+        formData.append('FileType', 'video');
+        formData.append('FilePath', 'www.facebook.com');
+        formData.append('AssignmentPoints', '2000');
 
-
-
-  //     this.adminService.postFunction('appApi/UploadAppPracticeAudio', formData).subscribe((res: any) => {
-  //       if (res.ResponseCode === 800) {
-  //         this.resetForm();
-  //         console.log('Audio uploaded successfully:', res.data);
-  //       } else {
-  //         console.error('Error:', res.ResponseMsg);
-  //       }
-  //     });
-  //   } else {
-  //     console.error('No file selected');
-  //   }
-  // }
+        this.adminService.postFunction2('appApi/insertstudentassignments', formData).subscribe(
+            (res: any) => {
+                // Handle the custom response
+                if (res.ResponseCode === 300) {
+                    console.log('Response:', res);
+                } else if (res.ResponseCode === 800) {
+                    this.resetForm();
+                    console.log('Assignment uploaded successfully:', res);
+                }
+            },
+            (error) => {
+                // Handle other errors
+                console.error('Error occurred:', error);
+            }
+        );
+    } else {
+        console.error('No file selected');
+    }
+}
 
 
   // **********************************************************************

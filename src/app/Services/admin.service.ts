@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpEvent, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment'; //for environment URL
-import { Observable, catchError, tap, throwError } from 'rxjs';
+import { Observable, catchError, tap, of, throwError } from 'rxjs';
+import { map } from 'rxjs/operators';
+
+
 
 @Injectable({
   providedIn: 'root'
@@ -101,5 +104,25 @@ export class AdminService {
       throw new Error(e);
     }))
   }
+
+  postFunction2(path: string, body: any): Observable<any> {
+    return this.http.post<any>(environment.apiUrl + path, body).pipe(
+        tap(res => res),
+        catchError(error => {
+            // Handle errors here, but avoid treating 300 status as an error
+            if (error.status !== 300) {
+                return throwError(() => new Error(error.message));
+            }
+            // If you want to handle 300 status differently or pass it through, do it here
+            return of(error.error); // Use 'of' to pass through the response
+        })
+    );
+}
+
+
+
+
+
+
 
 }
