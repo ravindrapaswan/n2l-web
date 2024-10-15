@@ -672,12 +672,16 @@ deleteBatch(batchid: number) {
   }
   // ********************************************************************** Testing Demo api
 
+  TestingPayment(){
+    
+  }
+
   TestingApi() {
     const fileInput: HTMLInputElement = document.getElementById('fileInput') as HTMLInputElement;
 
     if (fileInput.files && fileInput.files.length > 0) {
         const formData = new FormData();
-        formData.append('file', fileInput.files[0]);
+        formData.append('file', fileInput.files[0].name);
         formData.append('StudentId', '10001');
         formData.append('CourseId', '101');
         formData.append('AssignmentTypeId', '20');
@@ -703,10 +707,48 @@ deleteBatch(batchid: number) {
     } else {
         console.error('No file selected');
     }
-}
+   }
+
+// TestingApi() {
+//   const fileInput: HTMLInputElement = document.getElementById('fileInput') as HTMLInputElement;
+
+//   if (fileInput.files && fileInput.files.length > 0) {
+//       const formData = new FormData();
+//       formData.append('file', fileInput.files[0]);
+
+//       formData.append('StudentId', '10001');
+//       formData.append('courseid', '101');
+//       formData.append('DateOfAudioCreation', '2024-10-02 11:36:24');
+//       formData.append('QuizId', '1001');
+//       formData.append('single_multi', '1');
+//       formData.append('friendid', '1000');
+
+
+//       this.adminService.postFunction2('appApi/UploadAppPracticeAudio', formData).subscribe(
+//           (res: any) => {
+//               // Handle the custom response
+//               if (res.ResponseCode === 300) {
+//                   console.log('Response:', res);
+//               } else if (res.ResponseCode === 800) {
+//                   this.resetForm();
+//                   console.log('Assignment uploaded successfully:', res);
+//               }
+//           },
+//           (error) => {
+//               // Handle other errors
+//               console.error('Error occurred:', error);
+//           }
+//       );
+//   } else {
+//       console.error('No file selected');
+//   }
+// }
+
 
 
   // **********************************************************************
+
+
 
   private resetForm() {
     this.CreateBatchForm.reset();

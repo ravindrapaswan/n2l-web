@@ -39,14 +39,21 @@
                                 <mat-error *ngIf="!GenerateOtpForm.controls['email'].valid">Please Enter Valid
                                     Email</mat-error>
                             </mat-form-field>
-                        </div>
+                        </div>  
 
                         <div class="col-lg-12 text-center">
-                            <button type="button" mat-raised-button color="primary" (click)="generateOTP()"
+                            <div class="col-lg-12 text-center mb-3">
+                                <h4 style="color: #4CAF50; font-weight: bold;">Registration Fee: ₹9</h4>
+                            </div>
+
+                            <button type="button" mat-raised-button color="primary" (click)="PayAndResisterHandle()"
                                 [disabled]="!GenerateOtpForm.valid">Register</button>
+
+                                <!-- <button type="button" mat-raised-button color="primary" [disabled]="!GenerateOtpForm.valid" (click)="PayAndResisterHandle()">Pay & Register</button> -->
                         </div>
 
                     </div>
+
                     <!-- OTP Box -->
                     <div class="row" *ngIf="OtpInputBox==true">
                         <div class="srow clrleft dashboard-details">
@@ -92,13 +99,14 @@
                             </div>
                         </div>
                     </div>
+                
                 </form>
+
                 <!-- Password Box -->
                 <div class="row" *ngIf="PasswordBox==true">
                     <form [formGroup]="PasswordForm">
                         <div class="col-lg-12 mb-4">
-                            <!-- <h2 class="text-success text-center" *ngIf="verified==true">OTP Verification
-                                Successfully<mat-icon>mobile_friendly</mat-icon></h2> -->
+                        
                             <h2 class="text-center" style="color: red;" *ngIf="PassValidation==true">Password and
                                 Confirm Password not Matched!</h2>
                             <div class="form-group">

@@ -105,20 +105,30 @@ export class AdminService {
     }))
   }
 
-  postFunction2(path: string, body: any): Observable<any> {
-    return this.http.post<any>(environment.apiUrl + path, body).pipe(
-        tap(res => res),
-        catchError(error => {
-            // Handle errors here, but avoid treating 300 status as an error
-            if (error.status !== 300) {
-                return throwError(() => new Error(error.message));
-            }
-            // If you want to handle 300 status differently or pass it through, do it here
-            return of(error.error); // Use 'of' to pass through the response
-        })
-    );
-}
+//   postFunction2(path: string, body: any): Observable<any> {
+//     return this.http.post<any>(environment.apiUrl + path, body).pipe(
+//         tap(res => res),
+//         catchError(error => {
+//             // Handle errors here, but avoid treating 300 status as an error
+//             if (error.status !== 300) {
+//                 return throwError(() => new Error(error.message));
+//             }
+//             // If you want to handle 300 status differently or pass it through, do it here
+//             return of(error.error); // Use 'of' to pass through the response
+//         })
+//     );
+// }
 
+postFunction2(path: string, body: any): Observable<any> {
+  return this.http.post(environment.apiUrl + path, body).pipe(
+      tap(res => res),
+      catchError(e => {
+          // Check if e.error is an object and has a message
+          const errorMessage = e?.error?.message || e?.message || 'Unknown error occurred';
+          return throwError(() => new Error(errorMessage));
+      })
+  );
+}
 
 
 

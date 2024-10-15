@@ -33,6 +33,26 @@ export class RegisterComponent {
     confirmPassword: [''],
   });
 
+
+  paymentDataForm = this.fb.group({
+    name: [''],
+    mobileNumber: [''],
+  });
+
+  transferData() {
+    this.paymentDataForm.patchValue({
+      name: this.GenerateOtpForm.get('Name')?.value,
+      mobileNumber: this.GenerateOtpForm.get('MobileNumber')?.value,
+    });
+  }
+
+  async PayAndResisterHandle(){
+    await this.transferData()
+    this.generateOTP()
+  }
+
+
+
   PasswordForm: FormGroup = this.fb.group({
     password: ['', [Validators.required, Validators.minLength(6), Validators.pattern(/^(?=.*[A-Z])(?=.*[0-9]).{6,}$/i)]],
     confirmPassword: ['', [Validators.required, Validators.minLength(6), Validators.pattern(/^(?=.*[A-Z])(?=.*[0-9]).{6,}$/i)]]
@@ -78,6 +98,36 @@ export class RegisterComponent {
   verified: boolean = false; //When Otp not Matched
   btnOtpSubmit: boolean = false;
 
+  PayAndResister() {
+
+    this.userService.registerFunction('appApi/create-order', this.paymentDataForm.value).subscribe(
+      (res: any) => {
+        if (res.ResponseCode == 800) {
+          // Handle successful registration/payment initiation
+          console.log('Registration successful', res);
+  
+          if (res?.url) {
+            // Navigate to the payment page if the URL exists in the response
+            window.location.href = res.url;
+          } else {
+            // Handle the case where the URL is missing in the response
+            console.error('Payment URL not found in response');
+          }
+        } else {
+          // Handle registration failure (e.g., invalid data, backend issue)
+          console.error('Registration failed:', res.ResponseMsg || 'Unknown error');
+          // Optionally display an error message to the user
+        }
+      },
+      (error: any) => {
+        // Handle network or server errors
+        console.error('API error occurred:', error);
+        // Optionally show a generic error message to the user
+      }
+    );
+  }
+  
+
   VerifyOtp() {
     if (this.mobileOtp.length == 4) {
       this.GenerateOtpForm.patchValue({
@@ -88,10 +138,18 @@ export class RegisterComponent {
       this.userService.verifyOtpFunction('users/VerifyOtp', this.GenerateOtpForm.value).subscribe((res: any) => {
         if (res.ResponseCode == 800) {
           this.verified = true;
-          setTimeout(() => {
-            this.OtpInputBox = false;
-            this.PasswordBox = true;
+
+
+          // setTimeout(() => {
+          //   this.OtpInputBox = false;
+          //   this.PasswordBox = true;
+          // }, 2000);
+
+          setTimeout( ()=>{
+            this.PayAndResister()
           }, 2000);
+
+
         } else if (res.ResponseCode == 300) {
           this.NotVerified = true;
           this.OtpInputBox = false;
