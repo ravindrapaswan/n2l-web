@@ -9,6 +9,7 @@ import { ForgetPasswordComponent } from './FrontComponents/forget-password/forge
 import { TeacherGuard } from './guard/teacher.guard';
 import { ContactComponent } from './FrontComponents/contact/contact.component';
 import { PrivacyPolicyComponent } from './FrontComponents/privacy-policy/privacy-policy.component';
+import { RefundPolicyComponent } from './FrontComponents/refund-policy/refund-policy.component';
 
 const routes: Routes = [ //Routes Define
  {path:'', redirectTo:'home', pathMatch:'full'}, //Default Route
@@ -21,6 +22,7 @@ const routes: Routes = [ //Routes Define
   {path:'forgetPassword', component:ForgetPasswordComponent},
   {path:'contact', component:ContactComponent},
   {path:'privacy_policy',component:PrivacyPolicyComponent},
+  {path: 'refund_policy', component:RefundPolicyComponent},
 
 
   //Lazy Loading Module Routes
