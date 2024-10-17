@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import {FormGroup , FormBuilder, Validators } from '@angular/forms';
+
 import Swal from 'sweetalert2';
 // Services
 import { UserService } from 'src/app/Services/user.service';
@@ -21,6 +22,7 @@ export class RegisterComponent {
   RegisterBox: boolean = true;
   OtpInputBox: boolean = false;
   PasswordBox: boolean = false;
+  isLoading: boolean = false; // New loading state
 
   GenerateOtpForm: FormGroup = this.fb.group({
     Name: ['', [Validators.required]],
@@ -46,9 +48,11 @@ export class RegisterComponent {
     });
   }
 
-  async PayAndResisterHandle(){
-    await this.transferData()
+  PayAndResisterHandle(){
+    
+    this.transferData()
     this.generateOTP()
+
   }
 
 
@@ -60,15 +64,18 @@ export class RegisterComponent {
 
   OtpId: number = 0;
   generateOTP() { //Generate OTP
+    this.isLoading = true;
     if (!this.GenerateOtpForm.valid) {
       return;
     } 
 
     this.userService.sendOtpFunction('users/GenerateOtp', this.GenerateOtpForm.value).subscribe((res: any) => {
+      
       if (res.ResponseCode == 800) {
         this.OtpId = res.OtpId;
         this.RegisterBox = false;
         this.OtpInputBox = true;
+        this.isLoading = false;
       } else {
         console.log("Not found mobile or email")
       }
@@ -98,6 +105,27 @@ export class RegisterComponent {
   verified: boolean = false; //When Otp not Matched
   btnOtpSubmit: boolean = false;
 
+  getPaymentStatusFromTable(){
+    this.userService.registerFunction('appApi/getStausFromTable', this.paymentDataForm.value).subscribe(
+      (res: any) => {
+        if (res.ResponseCode == 800) {
+          // Handle successful registration/payment initiation
+          console.log('Registration successful', res);
+  
+        } else {
+
+          console.error('Registration failed:', res.ResponseMsg || 'Unknown error');
+         
+        }
+      },
+      (error: any) => {
+       
+        console.error('API error occurred:', error);
+
+      }
+    );
+  }
+
   PayAndResister() {
 
     this.userService.registerFunction('appApi/create-order', this.paymentDataForm.value).subscribe(
@@ -107,8 +135,14 @@ export class RegisterComponent {
           console.log('Registration successful', res);
   
           if (res?.url) {
+            this.isLoading = false;
             // Navigate to the payment page if the URL exists in the response
             window.location.href = res.url;
+
+            
+
+
+            console.log("res from PayAndResister ", res);
           } else {
             // Handle the case where the URL is missing in the response
             console.error('Payment URL not found in response');
@@ -128,7 +162,8 @@ export class RegisterComponent {
   }
   
 
-  VerifyOtp() {
+  async VerifyOtp() {
+    this.isLoading = true;
     if (this.mobileOtp.length == 4) {
       this.GenerateOtpForm.patchValue({
         mobileOtp: this.mobileOtp,
@@ -139,15 +174,14 @@ export class RegisterComponent {
         if (res.ResponseCode == 800) {
           this.verified = true;
 
+          setTimeout( async ()=>{
+            await this.PayAndResister()
+          }, 2000);
 
           // setTimeout(() => {
           //   this.OtpInputBox = false;
           //   this.PasswordBox = true;
           // }, 2000);
-
-          setTimeout( ()=>{
-            this.PayAndResister()
-          }, 2000);
 
 
         } else if (res.ResponseCode == 300) {

@@ -52,6 +52,12 @@ export class UserService {
     }))
   }
 
+  GenerateDataFunction(path: string, body: any):Observable<object>{
+    return this.http.post(environment.apiUrl + path, body).pipe(tap(res => res), catchError(e=>{
+      throw new Error(e);
+    }))
+  }
+
 
  
 

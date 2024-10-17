@@ -7,6 +7,7 @@
             <h1 class="admin_heading_h1" *ngIf="OtpInputBox">OTP</h1>
             <h1 class="admin_heading_h1" *ngIf="PasswordBox">Password</h1>
             <div class="srow clrleft pt_40">
+
                 <form [formGroup]="GenerateOtpForm">
                     <!-- Registration Form -->
                     <div class="row" *ngIf="RegisterBox==true">
@@ -47,9 +48,17 @@
                             </div>
 
                             <button type="button" mat-raised-button color="primary" (click)="PayAndResisterHandle()"
-                                [disabled]="!GenerateOtpForm.valid">Register</button>
+                                [disabled]="!GenerateOtpForm.valid">Pay & Register</button>
+
 
                                 <!-- <button type="button" mat-raised-button color="primary" [disabled]="!GenerateOtpForm.valid" (click)="PayAndResisterHandle()">Pay & Register</button> -->
+                        </div>
+
+                        <br>
+                        <br>
+
+                        <div *ngIf="isLoading">
+                            <mat-progress-bar mode="indeterminate" color="primary"></mat-progress-bar>
                         </div>
 
                     </div>
@@ -97,12 +106,15 @@
                                         class="btn btn-success">Verify</button>
                                 </div>
                             </div>
+                            <div *ngIf="isLoading">
+                                <mat-progress-bar mode="indeterminate" color="primary"></mat-progress-bar>
+                            </div>
                         </div>
                     </div>
                 
                 </form>
-
-                <!-- Password Box -->
+                
+               <!-- Password Box -->
                 <div class="row" *ngIf="PasswordBox==true">
                     <form [formGroup]="PasswordForm">
                         <div class="col-lg-12 mb-4">
@@ -141,7 +153,10 @@
                     </form>
                 </div>
 
+
+
             </div>
+
         </div>
     </div>
 </div>

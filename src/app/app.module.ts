@@ -1,6 +1,9 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+
+
 // Added Modules
 import { HttpClientModule } from  '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -42,7 +45,8 @@ import { PrivacyPolicyComponent } from './FrontComponents/privacy-policy/privacy
     RegisterComponent,
     ForgetPasswordComponent,
     ContactComponent,
-    PrivacyPolicyComponent
+    PrivacyPolicyComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -54,6 +58,7 @@ import { PrivacyPolicyComponent } from './FrontComponents/privacy-policy/privacy
     MaterialModule,
     NgxExtendedPdfViewerModule,
     NgOtpInputModule,
+    MatProgressBarModule,
     JwtModule.forRoot({
       config: {
         tokenGetter: function tokenGetter() {
