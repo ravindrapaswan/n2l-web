@@ -672,82 +672,121 @@ deleteBatch(batchid: number) {
   }
   // ********************************************************************** Testing Demo api
 
-  TestingPayment(){
-    
+  
+  // TestingApi() {
+  //   const fileInput: HTMLInputElement = document.getElementById('fileInput') as HTMLInputElement;
+
+  //   if (fileInput.files && fileInput.files.length > 0) {
+  //       const formData = new FormData();
+  //       formData.append('file', fileInput.files[0].name);
+  //       formData.append('StudentId', '10001');
+  //       formData.append('CourseId', '101');
+  //       formData.append('AssignmentTypeId', '20');
+  //       formData.append('FileType', 'video');
+  //       formData.append('FilePath', 'www.facebook.com');
+  //       formData.append('AssignmentPoints', '2000');
+
+  //       console.log("formData ",formData);
+
+  //       this.adminService.postFunction('appApi/insertstudentassignments', formData).subscribe(
+  //           (res: any) => {
+  //               // Handle the custom response
+  //               if (res.ResponseCode === 300) {
+  //                   console.log('Response:', res);
+  //               } else if (res.ResponseCode === 800) {
+  //                   this.resetForm();
+  //                   console.log('Assignment uploaded successfully:', res);
+  //               }
+  //           },
+  //           (error) => {
+  //               // Handle other errors
+  //               console.error('Error occurred:', error);
+  //           }
+  //       );
+  //   } else {
+  //       console.error('No file selected');
+  //   }
+  // }
+
+TestingApi() {
+  const fileInput: HTMLInputElement = document.getElementById('fileInput') as HTMLInputElement;
+
+  if (fileInput.files && fileInput.files.length > 0) {
+      const formData = new FormData();
+      formData.append('mp4', fileInput.files[0]);
+
+      formData.append('StudentId', '00000');
+      formData.append('DateOfVideoCreation', '2024-10-19 01:35:40');
+      formData.append('QuizId', '1001');
+      formData.append('single_multi', '2');
+      formData.append('friendid', '1000');
+
+      console.log("formData ",formData)
+
+
+      this.adminService.postFunction2('appApi/UploadPracticeVideo', formData).subscribe(
+          (res: any) => {
+
+            console.log("res ",res)
+              // Handle the custom response
+              if (res.ResponseCode === 300) {
+                  console.log('Response:', res);
+              } else if (res.ResponseCode === 800) {
+                  this.resetForm();
+                  console.log('Assignment uploaded successfully:', res);
+              }
+          },
+          (error) => {
+              // Handle other errors
+              console.error('Error occurred:', error);
+          }
+      );
+  } else {
+      console.error('No file selected');
   }
-
-  TestingApi() {
-    const fileInput: HTMLInputElement = document.getElementById('fileInput') as HTMLInputElement;
-
-    if (fileInput.files && fileInput.files.length > 0) {
-        const formData = new FormData();
-        formData.append('file', fileInput.files[0].name);
-        formData.append('StudentId', '10001');
-        formData.append('CourseId', '101');
-        formData.append('AssignmentTypeId', '20');
-        formData.append('FileType', 'video');
-        formData.append('FilePath', 'www.facebook.com');
-        formData.append('AssignmentPoints', '2000');
-
-        this.adminService.postFunction2('appApi/insertstudentassignments', formData).subscribe(
-            (res: any) => {
-                // Handle the custom response
-                if (res.ResponseCode === 300) {
-                    console.log('Response:', res);
-                } else if (res.ResponseCode === 800) {
-                    this.resetForm();
-                    console.log('Assignment uploaded successfully:', res);
-                }
-            },
-            (error) => {
-                // Handle other errors
-                console.error('Error occurred:', error);
-            }
-        );
-    } else {
-        console.error('No file selected');
-    }
-   }
-
-// TestingApi() {
-//   const fileInput: HTMLInputElement = document.getElementById('fileInput') as HTMLInputElement;
-
-//   if (fileInput.files && fileInput.files.length > 0) {
-//       const formData = new FormData();
-//       formData.append('file', fileInput.files[0]);
-
-//       formData.append('StudentId', '10001');
-//       formData.append('courseid', '101');
-//       formData.append('DateOfAudioCreation', '2024-10-02 11:36:24');
-//       formData.append('QuizId', '1001');
-//       formData.append('single_multi', '1');
-//       formData.append('friendid', '1000');
-
-
-//       this.adminService.postFunction2('appApi/UploadAppPracticeAudio', formData).subscribe(
-//           (res: any) => {
-//               // Handle the custom response
-//               if (res.ResponseCode === 300) {
-//                   console.log('Response:', res);
-//               } else if (res.ResponseCode === 800) {
-//                   this.resetForm();
-//                   console.log('Assignment uploaded successfully:', res);
-//               }
-//           },
-//           (error) => {
-//               // Handle other errors
-//               console.error('Error occurred:', error);
-//           }
-//       );
-//   } else {
-//       console.error('No file selected');
-//   }
-// }
+}
 
 
 
   // **********************************************************************
 
+//   TestingApi() {
+//     const fileInput: HTMLInputElement = document.getElementById('fileInput') as HTMLInputElement;
+
+
+
+//     if (fileInput.files && fileInput.files.length > 0) {
+//         const formData = new FormData();
+//         formData.append('file', fileInput.files[0]);
+//         formData.append('StudentId', '10001');
+//         formData.append('DateOfVideoCreation', '2024-10-18');
+//         formData.append('QuizId', '1001');
+//         formData.append('single_multi', '1');
+//         formData.append('friendid', '1000');
+//         formData.append('courseid', '101');
+
+//         fetch('https://n2lacademy.in/api/appApi/UploadPracticeVideo', {
+//             method: 'POST',
+//             body: formData,
+//         })
+//         .then(async (response) => {
+//             const contentType = response.headers.get('content-type');
+//             if (contentType && contentType.includes('application/json')) {
+//                 return response.json(); // If it's JSON, parse it
+//             } else {
+//                 throw new Error('Invalid response from server, expected JSON.');
+//             }
+//         })
+//         .then(res => {
+//             console.log("Response: ", res);
+//         })
+//         .catch(error => {
+//             console.error('Error occurred:', error);
+//         });
+//     } else {
+//         console.error('No file selected');
+//     }
+// }
 
 
   private resetForm() {

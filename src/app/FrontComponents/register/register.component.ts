@@ -106,7 +106,7 @@ export class RegisterComponent {
   btnOtpSubmit: boolean = false;
 
   getPaymentStatusFromTable(){
-    this.userService.registerFunction('appApi/getStausFromTable', this.paymentDataForm.value).subscribe(
+    this.userService.registerFunction('appApi/getStausFromTable', {}).subscribe(
       (res: any) => {
         if (res.ResponseCode == 800) {
           // Handle successful registration/payment initiation
@@ -126,6 +126,26 @@ export class RegisterComponent {
     );
   }
 
+  checkPaymentStatus(mobileNumber: string, transactionId: string) {
+    const interval = 2000; // Check every 2 seconds
+    const timeout = 7 * 60 * 1000; // 7 minutes in milliseconds
+    const startTime = Date.now();
+  
+    const paymentStatusCheck = setInterval(() => {
+      // Call the getPaymentStatus API
+      this.getPaymentStatusFromTable()
+      
+      // Check if the timeout has been reached
+      if (Date.now() - startTime >= timeout) {
+        clearInterval(paymentStatusCheck); // Stop polling
+        console.log('Payment failed due to timeout');
+        // Redirect to register page or display a failure message
+        window.location.href = 'http://localhost:4200/register'; // Adjust as necessary
+      }
+
+    }, interval);
+  }
+
   PayAndResister() {
 
     this.userService.registerFunction('appApi/create-order', this.paymentDataForm.value).subscribe(
@@ -140,6 +160,12 @@ export class RegisterComponent {
             window.location.href = res.url;
 
             
+          //  CHECK STATUS HERE.
+          // i want to call the getPaymentStatus api with res.mobileNumber and res.transactionid and
+          // check the status every 2 second till 7 minut if data is fetched then i want to handle
+          // the condition using if else. so if data fetched in time frame then i can handle
+          // other wise i want to display payment failled and redirect to the http://localhost:4200/register page.
+
 
 
             console.log("res from PayAndResister ", res);

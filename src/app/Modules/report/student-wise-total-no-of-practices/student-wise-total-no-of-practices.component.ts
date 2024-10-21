@@ -115,9 +115,11 @@ export class StudentWiseTotalNoOfPracticesComponent {
 
   // Method to show the table when the button is clicked
   showReport(): void {
+    console.log("showReport called")
     this.showTable = true;
-    this.hideBtn = true;
+
     this.showBtn = false;
+    this.hideBtn = true;
     if (this.showTable) {
         // Load the data only when 'Show Report' is clicked
         this.applyFilter(); // This will load data according to selectedBatchId
@@ -125,9 +127,11 @@ export class StudentWiseTotalNoOfPracticesComponent {
     }
   }
   hideReport(){
+    this.showTable = false;
+
     this.showBtn = true;
     this.hideBtn = false;
-    this.showTable = false;
+
   }
 
 

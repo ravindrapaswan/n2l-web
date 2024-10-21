@@ -44,8 +44,13 @@
 
                         <div class="col-lg-12 text-center">
                             <div class="col-lg-12 text-center mb-3">
-                                <h4 style="color: #4CAF50; font-weight: bold;">Registration Fee: ₹9</h4>
+                                <h4 style="color: #000; font-weight: bold; font-family: Arial, sans-serif; letter-spacing: 0.5px;">
+                                    Fee: <span style="text-decoration: line-through; color: #d9534f;">Rs 999</span>
+                                    <span style="color: #4CAF50; font-weight: normal;"> Rs 9 /-</span>
+                                </h4>
                             </div>
+                            
+                            
 
                             <button type="button" mat-raised-button color="primary" (click)="PayAndResisterHandle()"
                                 [disabled]="!GenerateOtpForm.valid">Pay & Register</button>

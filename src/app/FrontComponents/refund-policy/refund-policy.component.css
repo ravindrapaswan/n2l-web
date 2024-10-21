@@ -1,155 +1,105 @@
-.dashb_info {
-    margin-top: 20px;
-}
-
-/* Added  */
-
-.header_parts {
-    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#004eaf+0,a80030+100 */
-    background: #004eaf;
-    /* Old browsers */
-    background: -moz-linear-gradient(left, #004eaf 0%, #a80030 100%);
-    /* FF3.6-15 */
-    background: -webkit-linear-gradient(left, #004eaf 0%, #a80030 100%);
-    /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(to right, #004eaf 0%, #a80030 100%);
-    /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#004eaf', endColorstr='#a80030', GradientType=1);
-    /* IE6-9 */
-}
-
-.header_info {
-    padding: 20px;
-    margin-bottom: 20px;
-    text-align: center;
-    color: #fff;
-}
-
-.privacy_details h3 {
-    color: #A80030;
-    border-bottom: 1px solid #4f8edd;
-    margin-bottom: 10px;
-    padding-bottom: 5px;
-    position: relative;
-    font-size: 25px;
-}
-
-.privacy_details h3::after {
-    position: absolute;
-    left: 25px;
-    bottom: -5px;
-    width: 10px;
-    height: 10px;
-    background: #4f8edd;
-    content: '';
-    border-radius: 50%;
-}
-
-.under_list ul {
-    list-style: none;
-    display: inline-block;
-    width: 100%;
-}
-
-.under_list ul li {
-    width: 100%;
-    float: left;
-    margin-bottom: 10px;
-    position: relative;
-    padding-left: 25px;
-}
-
-.under_list ul li::before {
-    /* background: url(images/draw-check-mark.png) no-repeat left top; */
-    position: absolute;
-    left: 0;
-    top: 5px;
-    content: '';
-    width: 15px;
-    height: 15px;
-}
-
-.footer_info {
-    background: #A80030;
-    color: rgba(256, 256, 256, 0.7);
-    padding: 5px;
-}
-
-.copy_rights p {
-    text-align: center;
-    margin-bottom: 0;
-}
-
-/* **************************************************************************** */
 /* General table styling */
+.table-container {
+  width: 100%;
+  overflow-x: auto; /* Allows horizontal scroll on mobile */
+}
+
 table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 20px;
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+  table-layout: fixed; /* Helps with responsive layout */
+}
+
+/* Styling the table header */
+thead th {
+  background-color: #f8f9fa;
+  color: #333;
+  text-align: left;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #dee2e6;
+  word-wrap: break-word;
+}
+
+/* Styling the table body rows */
+tbody td {
+  padding: 10px;
+  border: 1px solid #dee2e6;
+  font-size: 14px;
+  word-wrap: break-word;
+}
+
+/* Alternating row colors for better readability */
+tbody tr:nth-child(odd) {
+  background-color: #f9f9f9;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #fff;
+}
+
+/* Styling for the table header and data cells */
+th, td {
+  border: 1px solid #ccc;
+  text-align: left;
+}
+
+/* Responsive styles for mobile */
+@media (max-width: 768px) {
+  .table-container {
+      overflow-x: auto;
   }
-  
-  /* Styling the table header */
-  thead th {
-    background-color: #f8f9fa;
-    color: #333;
-    text-align: left;
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #dee2e6;
-  }
-  
-  /* Styling the table body rows */
-  tbody td {
-    padding: 10px;
-    border: 1px solid #dee2e6;
-    font-size: 14px;
-  }
-  
-  /* Alternating row colors for better readability */
-  tbody tr:nth-child(odd) {
-    background-color: #f9f9f9;
-  }
-  
-  tbody tr:nth-child(even) {
-    background-color: #fff;
-  }
-  
-  /* Styling for the table header and data cells */
-  th, td {
-    border: 1px solid #ccc;
-  }
-  
-  /* Responsive table for small screens */
-  @media (max-width: 768px) {
-    table, thead, tbody, th, td, tr {
+
+  table {
+      width: 100%;
       display: block;
-    }
-  
-    /* Hiding the header for small screens */
-    thead {
-      display: none;
-    }
-  
-    tbody tr {
-      margin-bottom: 10px;
-    }
-  
-    td {
-      position: relative;
-      padding-left: 50%;
-      text-align: left;
-    }
-  
-    /* Adding labels for the table columns on small screens */
-    td:before {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      width: 45%;
-      padding-right: 10px;
-      white-space: nowrap;
-      content: attr(data-label); /* Use the data-label attribute to show the header */
-      font-weight: bold;
-    }
+      overflow-x: auto; /* Adds horizontal scroll for mobile view */
   }
-  
+
+  thead {
+      display: none; /* Hide table header in mobile view */
+  }
+
+  tbody tr {
+      display: block;
+      margin-bottom: 10px;
+  }
+
+  tbody td {
+      display: flex;
+      justify-content: flex-start; /* Aligns text to the left */
+      padding: 10px 5px;
+      font-size: 14px;
+      border-bottom: 1px solid #dee2e6;
+      position: relative;
+      text-align: left; /* Ensure text starts from the left */
+  }
+
+  tbody td:before {
+      content: attr(data-label);
+      font-weight: bold;
+      flex-basis: 40%; /* Adjusts the width of the label column */
+      padding-right: 10px;
+      color: #333;
+  }
+
+  tbody td[data-label="S. No."] {
+      display: none; /* Hides the S. No. column in mobile view */
+  }
+
+  tbody td:last-child {
+      border-bottom: none;
+  }
+}
+
+/* Additional styling for better readability on small screens */
+@media (max-width: 480px) {
+  tbody td {
+      font-size: 12px;
+  }
+
+  tbody td:before {
+      font-size: 12px;
+  }
+}
