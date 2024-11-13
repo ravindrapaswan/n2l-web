@@ -25,18 +25,23 @@ import { StudentBatchListComponent } from '../student-batch-list/student-batch-l
 })
 export class CreateBatchComponent {
 
-  @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
+
   dataSourceBatch: any = [];
   originalStudentList: any = []; // for search student
   studentList: any[] = []; // main list
   studentList2: any[] = []; // all student which are not part from current batch
   filteredstudentsglobally: any[] = []; // filter the student bassed on global search.
   batchwisestudents: any[] = []; // all students from current batch
+  dataSource: MatTableDataSource<any> = new MatTableDataSource(this.batchwisestudents);
+
+
   allStudent: any[] = []; // allstudent backup for clearing search input in batch main page
   allIdOfBatches: any[] = [];
 
   allStudentsFromAllBatches: any[] = [];
   allStudentWhichAreNotFromAnyBatch: any[] = [];
+
+  numberOfStudentsInBatchWise: any[] = [];
 
   // *******************************
 
@@ -83,6 +88,8 @@ export class CreateBatchComponent {
 
   }
 
+
+
   ngOnInit(): void {
     this.studentids = new FormControl([], Validators.required);
 
@@ -97,7 +104,21 @@ export class CreateBatchComponent {
       v_isdeletedForBatch: [],
       batchid: [],
     });
+
+    // this.dataSourceStudent.paginator = this.paginator;
+    // this.paginator.pageSize = 1000; // Set this to a large number to show all items
   }
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+  ngAfterViewInit(): void {
+    // Assign paginator to MatTableDataSource
+    if (this.paginator) {
+      this.dataSourceStudent.paginator = this.paginator;
+    }
+  }
+
+  
 
 
   // ***************************************************************************************************
@@ -147,10 +168,11 @@ export class CreateBatchComponent {
     for (let i = 0; i < this.allIdOfBatches.length; i++) {
       const batchId = this.allIdOfBatches[i].batchid;
       await this.acceseBatchWiseStudents2(batchId);
+
+
     }
     console.log('All students from all batches have been fetched:', this.allStudentsFromAllBatches);
   }
-
 
   acceseBatchWiseStudents2(batchid: number): Promise<void> {
     this.loader = true;
@@ -159,7 +181,7 @@ export class CreateBatchComponent {
       this.adminService.getBatchStudents('admin/getStudentsByBatchwise2/' + batchid).subscribe(
         (res: any) => {
           this.loader = false;
-          console.log("Response from API:", res);
+          console.log("Response from APII:", res);
 
           if (res.ResponseCode === 800) {
 
@@ -167,6 +189,15 @@ export class CreateBatchComponent {
               ...this.allStudentsFromAllBatches,
               ...(res.data ? res.data : [])
             ];
+
+            this.numberOfStudentsInBatchWise = [
+              ...this.numberOfStudentsInBatchWise,
+
+              res.data.length
+
+            ]
+
+            console.log("numberOfStudentsInBatchWise ",this.numberOfStudentsInBatchWise)
 
             resolve(); 
           } else {
@@ -276,7 +307,7 @@ getStudents() {
     if (res.ResponseCode === 800) {
       // If dataSourceStudent is empty, show all students
       if (this.dataSourceStudent && this.dataSourceStudent.length > 0) {
-
+        
         const batchStudentIds = this.dataSourceStudent.map((student: any) => student.userid);
         this.originalStudentList = res.data.filter((student: any) => !batchStudentIds.includes(student.userid));
 
@@ -284,6 +315,7 @@ getStudents() {
         this.originalStudentList = res.data;  // No filtering needed, display all students
       }
       console.log("data from get Student ",res.data);
+      this.dataSourceStudent.paginator = this.paginator;
 
       // this.studentList = [...this.allStudentWhichAreNotFromAnyBatch]
       // console.log("studentList from getStudent",this.allStudentWhichAreNotFromAnyBatch);
@@ -319,6 +351,9 @@ editBatch(batchid: number): Promise<void> {
 
   console.log("this.userid: ",this.userid);
   console.log("this.BatchId ",this.BatchId);
+  console.log("this.displayedColumnsBatch ",this.displayedColumnsBatch);
+  console.log("batchwisestudents ",this.batchwisestudents);
+
   return new Promise((resolve, reject) => {
     this.BatchId = batchid;
     this.getBatchbyBatchidData(batchid);
@@ -715,8 +750,8 @@ TestingApi() {
       const formData = new FormData();
       formData.append('mp4', fileInput.files[0]);
 
-      formData.append('StudentId', '00000');
-      formData.append('DateOfVideoCreation', '2024-10-19 01:35:40');
+      formData.append('StudentId', '99999');
+      formData.append('DateOfVideoCreation', '2024-11-08 06:50:40');
       formData.append('QuizId', '1001');
       formData.append('single_multi', '2');
       formData.append('friendid', '1000');

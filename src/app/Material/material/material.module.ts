@@ -20,31 +20,52 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatSortModule} from '@angular/material/sort';
 
 
+import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
+
+
+import {StudentAssignmentListComponent} from 'src/app/Modules/admin/student-assignment-list/student-assignment-list.component';
+import {BatchwiseAssignmentComponent} from 'src/app/Modules/admin/batchwise-assignment/batchwise-assignment.component';
+import {UpdateEmailComponent} from 'src/app/Modules/admin/update-email/update-email.component';
+import {ViewAssignmentComponent} from 'src/app/Modules/admin/view-assignment/view-assignment.component';
+
+
+
+
 
 const matConst =[
-CommonModule,
-MatSidenavModule,
-MatToolbarModule,
-MatIconModule,
-MatButtonModule,
-MatListModule,
-MatCardModule,
-MatFormFieldModule,
-MatInputModule,
-MatSelectModule,
-MatTableModule,
-MatPaginatorModule,
-MatDialogModule,
-MatMenuModule,
-MatProgressSpinnerModule,
-MatDatepickerModule,
-MatNativeDateModule,
-MatCheckboxModule,
-MatSortModule
+  CommonModule,
+  MatSidenavModule,
+  MatToolbarModule,
+  MatIconModule,
+  MatButtonModule,
+  MatListModule,
+  MatCardModule,
+  MatFormFieldModule,
+  MatInputModule,
+  MatSelectModule,
+  MatTableModule,
+  MatPaginatorModule,
+  MatDialogModule,
+  MatMenuModule,
+  MatProgressSpinnerModule,
+  MatDatepickerModule,
+  MatNativeDateModule,
+  MatCheckboxModule,
+  MatSortModule,
+  FormsModule,
+
 ];
 
 
 @NgModule({
+  declarations: [
+    BatchwiseAssignmentComponent,
+    StudentAssignmentListComponent, 
+    UpdateEmailComponent,
+    ViewAssignmentComponent,
+
+  ],
   imports: matConst,
   exports: matConst
 })

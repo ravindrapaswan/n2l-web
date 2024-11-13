@@ -36,6 +36,7 @@ export class StudentWiseTotalNoOfPracticesComponent {
 
   @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
   @ViewChild(MatSort) sort: MatSort | undefined;
+  
   dataSource: any = [];
   displayedColumns: string[] = ['sno', 'coursename', 'batchname', 'studentid', 'name', 'mobilenumber', 'email','No_of_Practices' ];
 
@@ -87,8 +88,9 @@ export class StudentWiseTotalNoOfPracticesComponent {
         this.StudentId = res.data[0].studentid;
         this.MainS3BuckectURl = res.MainUrl;
         this.StudentDataSource = new MatTableDataSource(res.data);
-        this.StudentDataSource.paginator = this.paginator;
-        this.StudentDataSource.sort = this.sort;
+        
+        
+        
       }
     })
   }

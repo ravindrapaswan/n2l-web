@@ -7,7 +7,6 @@ import { AdminRoutingModule } from './admin-routing.module';
 import { DatePipe } from '@angular/common';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 
-import { ViewAssignmentComponent } from './view-assignment/view-assignment.component';
 import { CreateWebinarComponent } from './create-webinar/create-webinar.component';
 import { StudentRecordComponent } from './student-record/student-record.component';
 import { BulkStudentRegisterComponent } from './bulk-student-register/bulk-student-register.component';
@@ -22,9 +21,12 @@ import { StudentBatchListComponent } from './student-batch-list/student-batch-li
 import { UploadQuizComponent } from './upload-quiz/upload-quiz.component';
 import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
 
+
+
+
+
 @NgModule({
   declarations: [
-    ViewAssignmentComponent,
     CreateWebinarComponent,
     StudentRecordComponent,
     BulkStudentRegisterComponent,
@@ -37,7 +39,9 @@ import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.compo
     CreateBatchComponent,
     StudentBatchListComponent,
     UploadQuizComponent,
-    AdminDashboardComponent
+    AdminDashboardComponent,
+
+
   ],
   imports: [
     CommonModule,

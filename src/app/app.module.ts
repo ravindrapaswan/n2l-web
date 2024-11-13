@@ -31,6 +31,7 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { ContactComponent } from './FrontComponents/contact/contact.component';
 import { PrivacyPolicyComponent } from './FrontComponents/privacy-policy/privacy-policy.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,

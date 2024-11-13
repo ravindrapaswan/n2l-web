@@ -10,6 +10,10 @@ import { CreateBatchComponent } from './create-batch/create-batch.component';
 import { UploadQuizComponent } from './upload-quiz/upload-quiz.component';
 import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
 
+import { BatchwiseAssignmentComponent } from './batchwise-assignment/batchwise-assignment.component';
+import { UpdateEmailComponent } from './update-email/update-email.component';
+
+
 const routes: Routes = [
   {path:'ExcelToStudentRegister',component:BulkStudentRegisterComponent},
   {path:'CreateWebinar', component:CreateWebinarComponent},
@@ -19,7 +23,12 @@ const routes: Routes = [
   {path:'UploadZoomFile', component:UploadZoomFileComponent},
   {path:'batch', component:CreateBatchComponent},
   {path:'UploadQuiz', component:UploadQuizComponent},
-  {path:'adminDashboard', component:AdminDashboardComponent}
+  {path:'adminDashboard', component:AdminDashboardComponent},
+
+  {path: 'batchwiseAssignment', component:BatchwiseAssignmentComponent},
+  {path: 'updateEmail', component:UpdateEmailComponent}
+
+
 ];
 
 @NgModule({

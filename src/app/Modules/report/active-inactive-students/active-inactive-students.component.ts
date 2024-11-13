@@ -1,22 +1,39 @@
 import { Component, ViewChild, AfterViewInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatPaginator } from '@angular/material/paginator';
 import { AdminService } from 'src/app/Services/admin.service';
+
+import { MatSort, MatSortModule } from '@angular/material/sort';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-active-inactive-students',
   templateUrl: './active-inactive-students.component.html',
   styleUrls: ['./active-inactive-students.component.css']
 })
-export class ActiveInactiveStudentsComponent implements AfterViewInit {
+export class ActiveInactiveStudentsComponent{
 
   loader: boolean = false;
 
   constructor(private adminService: AdminService) {}
 
-  @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
+  ngOnInit() {
+    this.getData();
+  }
 
-  dataSource = new MatTableDataSource<any>([]);
+  ngAfterViewInit() {
+    if (this.paginator) {
+      this.dataSource.paginator = this.paginator;
+    }
+
+    if (this.sort) {
+      this.dataSource.sort = this.sort;
+    }
+  }
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
+
+  dataSource: any = [];
   dataSourceDuplicate = new MatTableDataSource<any>([]);
 
   displayedColumns: string[] = ['sno', 'userid', 'name', 'mobilenumber', 'date_of_registration', 'DateOfLastActive'];
@@ -28,17 +45,10 @@ export class ActiveInactiveStudentsComponent implements AfterViewInit {
   showTable = false;    // Initially hide the table
   showReport(): void {  // Method to show the table when the button is clicked
     this.showTable = !this.showTable;
+
+    setTimeout(() => this.dataSource.sort = this.sort, 0);
   }
 
-  ngOnInit() {
-    this.getData();
-  }
-
-  ngAfterViewInit() {
-    if (this.paginator) {
-      this.dataSource.paginator = this.paginator;
-    }
-  }
 
   calculateStudentCounts() {
     this.totalStudents = this.dataSource.data.length;
@@ -55,13 +65,18 @@ export class ActiveInactiveStudentsComponent implements AfterViewInit {
     this.adminService.getFunction('admin/LastActiveDate').subscribe((res: any) => {
       this.loader = false;
       if (res.ResponseCode === 800) {
-        this.dataSource.data = res.data;
+
+        this.dataSource = new MatTableDataSource(res.data);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+
+
+        console.log("dataSource.data: ",this.dataSource);
+
         this.dataSourceDuplicate.data = res.data;
-        console.log("this.dataSource ",this.dataSource.data);
         this.calculateStudentCounts();
-        if (this.paginator) {
-          this.dataSource.paginator = this.paginator;
-        }
+
+
       }
     }, error => {
       this.loader = false;

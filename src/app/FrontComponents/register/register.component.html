@@ -22,7 +22,7 @@
                             </mat-form-field>
                         </div>
 
-                        <div class="col-lg-12 mb-3">
+                        <!-- <div class="col-lg-12 mb-3">
                             <mat-form-field appearance="outline" style="width: 100%">
                                 <mat-label>Mobile Number</mat-label>
                                 <input autocomplete="off" formControlName="MobileNumber" matInput
@@ -30,7 +30,25 @@
                                 <mat-error *ngIf="!GenerateOtpForm.controls['MobileNumber'].valid">Please Enter 10 Digit
                                     Mobile Number</mat-error>
                             </mat-form-field>
-                        </div>
+                        </div> -->
+
+                        <div class="col-lg-12 mb-3">
+                            <mat-form-field appearance="outline" style="width: 100%">
+                              <mat-label>Mobile Number</mat-label>
+                              <input 
+                                autocomplete="off" 
+                                formControlName="MobileNumber" 
+                                matInput 
+                                placeholder="Please Enter Mobile Number" 
+                                required
+                                (input)="normalizeMobileNumber()"
+                              />
+                              <mat-error *ngIf="!GenerateOtpForm.controls['MobileNumber'].valid">
+                                Please Enter 10 Digit Mobile Number
+                              </mat-error>
+                            </mat-form-field>
+                          </div>
+                          
 
                         <div class="col-lg-12 mb-3">
                             <mat-form-field appearance="outline" style="width: 100%">
@@ -119,6 +137,7 @@
                 
                 </form>
                 
+
                <!-- Password Box -->
                 <div class="row" *ngIf="PasswordBox==true">
                     <form [formGroup]="PasswordForm">

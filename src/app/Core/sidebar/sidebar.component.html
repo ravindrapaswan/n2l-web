@@ -19,10 +19,16 @@
       </ul>
     </div>
 
+
+
+
+
     <div class="sidebar" *ngIf="UserState==2"> <!--Side Bar For Teacher-->
       <ul class="menu">
         <li class="menu-item signle-menues"><a routerLink="admin/adminDashboard"><mat-icon>
-              dashboard</mat-icon><span>Dashboard</span></a></li>
+              dashboard</mat-icon><span>Dashboard</span></a>
+        </li>
+
         <li class="menu-item"><a><mat-icon>laptop_chromebook</mat-icon><span>Webinar</span> <i
               class="fa fa-angle-right"></i></a>
           <ul class="submenu">
@@ -33,9 +39,17 @@
                   Webinar</span></a></li>
           </ul>
         </li>
+
         <li class="menu-item signle-menues"><a routerLink="admin/ViewAssignment"><mat-icon>
               rate_review</mat-icon><span>View
-              Assignments</span></a></li>
+              Assignment</span></a>
+        </li>
+
+        <li class="menu-item signle-menues"><a routerLink="admin/batchwiseAssignment"><mat-icon>
+          assignment</mat-icon><span>Batchwise
+          Assignment</span></a>
+        </li>
+
         <li class="menu-item signle-menues"><a routerLink="admin/StudentList"><mat-icon>work</mat-icon><span>Students
               Data</span></a>
         </li>
@@ -68,6 +82,16 @@
         <li class="menu-item signle-menues"><a
             routerLink="admin/UploadQuiz"><mat-icon>cloud_upload</mat-icon><span>Upload
               Quiz</span></a></li>
+
+        <li class="menu-item single-menues">
+          <a routerLink="admin/updateEmail">
+            <mat-icon>edit</mat-icon>
+            <span>Update Email Body</span>
+          </a>
+        </li>
+              
+
+
       </ul>
     </div>
 

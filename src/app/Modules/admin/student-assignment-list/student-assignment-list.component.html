@@ -1,0 +1,77 @@
+<div class="srow load_circles_transbg" *ngIf="loader">
+    <div class="load_circles">
+        <mat-spinner></mat-spinner>
+    </div>
+</div>
+
+<div class="srow clrleft pop_boxes">
+    <div class="srow clrleft card_details mb-0">
+        <mat-dialog-content class="mat-typography webinar_register">
+            <h1 class="admin_heading_h1">Student Assignment List</h1>
+
+
+            <!-- Table -->
+            <div class="row">
+                <div class="col-lg-12">
+
+
+                    <div style="display: flex; justify-content: center; align-items: center;">
+                        <h2 class="admin_heading_h2">{{ selectedStudentName }}</h2>
+                    </div>
+                      
+
+                    <div id="table_scroll" #TABLE class="srow table-responsive">
+                        <table mat-table matSort #table [dataSource]="dataSource" class="mat-elevation-z8" id="data_table">
+
+                            <ng-container matColumnDef="sno">
+                                <th mat-header-cell *matHeaderCellDef>Sno</th>
+                                <td mat-cell *matCellDef="let row; let i = index">{{ i + 1 }}</td>
+                            </ng-container>
+
+                            <!-- <ng-container matColumnDef="name">
+                                <th mat-header-cell *matHeaderCellDef>Name</th>
+                                <td mat-cell *matCellDef="let row">{{row.name}}</td>
+                            </ng-container> -->
+
+                            <ng-container matColumnDef="assignmentType">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Assignment Type</th>
+                                <td mat-cell *matCellDef="let row"> {{row.AssignmentType}} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="uploadDate">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Upload Date</th>
+                                <td mat-cell *matCellDef="let row"> {{row.uploadDate}} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="points">
+                                <th mat-header-cell *matHeaderCellDef>Points</th>
+                                <td mat-cell *matCellDef="let row"> {{row.points}} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="download">
+                                <th mat-header-cell *matHeaderCellDef>Download</th>
+                                <td mat-cell *matCellDef="let row">
+                                    <button mat-mini-fab color="primary" (click)="downloadFile(row.filepath)">
+                                        <mat-icon>cloud_download</mat-icon>
+                                    </button>
+                                </td>
+                            </ng-container>
+                            
+
+
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+               
+                        </table>
+
+                    </div>
+                    <div class="srow">
+                        <br>
+                        <br>
+                    </div>
+                </div>
+            </div>
+
+        </mat-dialog-content>
+    </div>
+</div>

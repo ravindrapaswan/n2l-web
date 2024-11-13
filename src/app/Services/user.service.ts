@@ -58,6 +58,18 @@ export class UserService {
     }))
   }
 
+  getDataFunction(path: string):Observable<object>{
+    return this.http.get(environment.apiUrl + path).pipe(tap(res => res), catchError(e=>{
+      throw new Error(e);
+    }))
+  }
+
+  getDataFunction2(path: string, body: any):Observable<object>{
+    return this.http.post(environment.apiUrl + path, body).pipe(tap(res => res), catchError(e=>{
+      throw new Error(e);
+    }))
+  }
+
 
  
 

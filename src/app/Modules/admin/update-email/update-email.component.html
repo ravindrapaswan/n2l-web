@@ -1,0 +1,23 @@
+<div class="row">
+    <div class="col-lg-12">
+        <div class="srow clrleft card_details dashb_info">
+            <h1 class="admin_heading_h1">Update Email Body</h1>
+            
+            <form (ngSubmit)="updateText()">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <mat-form-field appearance="outline" fullWidth>
+                            <mat-label>Enter Text</mat-label>
+                            <textarea matInput [(ngModel)]="textContent" name="textContent" required rows="8" cols="50"></textarea>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-md-3 mb-3">
+                        <button type="submit" class="btn btn-primary btn-block" (clicl)="updateText()">Update</button>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>

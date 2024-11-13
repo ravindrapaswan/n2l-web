@@ -1,9 +1,24 @@
 import { Component } from '@angular/core';
 import {FormGroup , FormBuilder, Validators } from '@angular/forms';
 
+
 import Swal from 'sweetalert2';
 // Services
 import { UserService } from 'src/app/Services/user.service';
+import { data } from 'jquery';
+
+
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment'; //for environment URL
+import { Observable, catchError, tap } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+import { interval, Subscription } from 'rxjs';
+import { switchMap, window } from 'rxjs/operators';
+import { transition } from '@angular/animations';
+import { Router } from '@angular/router';
+
+
 
 
 @Component({
@@ -13,16 +28,56 @@ import { UserService } from 'src/app/Services/user.service';
 })
 export class RegisterComponent {
 
+  pollSubscription!: Subscription;
+
   constructor(
     private fb: FormBuilder,
     private userService: UserService,
+    private http: HttpClient,
+    private route: ActivatedRoute,
+    private router: Router
+
+
   ) { }
+
+  async ngOnInit() {
+
+      // Check if redirected back from PayU with transactionId
+      const transactionId = this.route.snapshot.queryParams['transactionid'];
+      const name = this.route.snapshot.queryParams['name'];
+      const phone = this.route.snapshot.queryParams['phone'];
+      const email = this.route.snapshot.queryParams['email'];
+
+      console.log("transactionId ",transactionId);
+
+      console.log("GenerateOtpForm before: ",this.GenerateOtpForm.value)
+
+      await this.GenerateOtpForm.patchValue({
+        Name: name,
+        MobileNumber: phone,
+        email: email,
+      })
+
+      console.log("GenerateOtpForm after : ",this.GenerateOtpForm.value)
+
+      if (transactionId) {
+        this.RegisterBox = false;
+        await Swal.fire({ icon: 'success', text: "User paid and registered successfully.", timer: 3000 })
+        this.router.navigate(['/home']);
+      }
+    
+  }
+
+
 
   // New Codes
   RegisterBox: boolean = true;
   OtpInputBox: boolean = false;
   PasswordBox: boolean = false;
   isLoading: boolean = false; // New loading state
+
+  successUrl: String = 'https://n2lacademy.in/api/appApi/success';
+  failureUrl: String = 'https://n2lacademy.in/api/appApi/failure';
 
   GenerateOtpForm: FormGroup = this.fb.group({
     Name: ['', [Validators.required]],
@@ -39,19 +94,42 @@ export class RegisterComponent {
   paymentDataForm = this.fb.group({
     name: [''],
     mobileNumber: [''],
+    email: ['']
   });
 
   transferData() {
     this.paymentDataForm.patchValue({
       name: this.GenerateOtpForm.get('Name')?.value,
       mobileNumber: this.GenerateOtpForm.get('MobileNumber')?.value,
+      email: this.GenerateOtpForm.get('email')?.value
     });
   }
 
-  PayAndResisterHandle(){
+  normalizeMobileNumber() {
+    let mobile = this.GenerateOtpForm.controls['MobileNumber'].value;
+    mobile = mobile.replace(/^(\+91|91|0)/, ''); // Normalize the mobile number
+    this.GenerateOtpForm.controls['MobileNumber'].setValue(mobile); // Set normalized value back
+  }
+
+  async PayAndResisterHandle(){
+
+    await this.transferData()
+    await this.PayAndResister()
     
-    this.transferData()
-    this.generateOTP()
+    // this.userService.getDataFunction2('users/CheckUserRegistration', this.GenerateOtpForm.value).subscribe( async (res: any) =>{
+    //   console.log("GenerateOtpForm ",res.data)
+    //   if(res.ResponseCode == 800 && res.isRegistered == true){
+
+    //     Swal.fire({ icon: 'success', text: "User Already Registered", timer: 3000 });
+
+    //     this.router.navigate(['/home']);
+        
+    //   }
+    //   else{
+    //     await this.transferData()
+    //     await this.PayAndResister()
+    //   }
+    // })
 
   }
 
@@ -62,6 +140,41 @@ export class RegisterComponent {
     confirmPassword: ['', [Validators.required, Validators.minLength(6), Validators.pattern(/^(?=.*[A-Z])(?=.*[0-9]).{6,}$/i)]]
   })
 
+
+  async VerifyOtp() {
+    this.isLoading = true;
+    if (this.mobileOtp.length == 4) {
+      this.GenerateOtpForm.patchValue({
+        
+        mobileOtp: this.mobileOtp,
+        emailOtp: this.emailOtp,
+        OtpId: this.OtpId
+      })
+
+      console.log("GenerateOtpForm giving to VerifyOtp",this.GenerateOtpForm.value)
+      this.userService.verifyOtpFunction('users/VerifyOtp', this.GenerateOtpForm.value).subscribe((res: any) => {
+        console.log("VerifyOtp response: ", res);
+        if (res.ResponseCode == 800) {
+          this.verified = true;
+
+          setTimeout( async ()=>{
+            await this.PayAndResister()
+          }, 1000);
+
+
+        } else if (res.ResponseCode == 300) {
+          this.NotVerified = true;
+          this.OtpInputBox = false;
+          this.RegisterBox = true;
+        }
+      })
+
+    } else {
+      this.btnOtpSubmit = true;
+    }
+  }
+
+
   OtpId: number = 0;
   generateOTP() { //Generate OTP
     this.isLoading = true;
@@ -69,13 +182,15 @@ export class RegisterComponent {
       return;
     } 
 
+    console.log("GenerateOtpFormmm ",this.GenerateOtpForm)
+
     this.userService.sendOtpFunction('users/GenerateOtp', this.GenerateOtpForm.value).subscribe((res: any) => {
-      
+      console.log("Otp res", res)
       if (res.ResponseCode == 800) {
         this.OtpId = res.OtpId;
         this.RegisterBox = false;
-        this.OtpInputBox = true;
         this.isLoading = false;
+        // this.OtpInputBox = true;
       } else {
         console.log("Not found mobile or email")
       }
@@ -105,133 +220,116 @@ export class RegisterComponent {
   verified: boolean = false; //When Otp not Matched
   btnOtpSubmit: boolean = false;
 
-  getPaymentStatusFromTable(){
-    this.userService.registerFunction('appApi/getStausFromTable', {}).subscribe(
-      (res: any) => {
-        if (res.ResponseCode == 800) {
-          // Handle successful registration/payment initiation
-          console.log('Registration successful', res);
-  
+ // Call this method after initiating the payment
+ startPolling(txnid: string) {
+  const pollInterval = setInterval(() => {
+    this.http.get<any>(`https://n2lacademy.in/api/appApi/getResponse?transactionid=${txnid}`)
+      .subscribe(response => {
+        console.log('Polling response:', response);
+
+        // Check if response and data exist
+        if (response && response.data && response.data.length > 0) {
+          const paymentStatus = response.data[0].status; // Assuming response.data[0] contains the order record
+
+          if (paymentStatus === 'Paid') {
+            console.log("Payment Paid", response);
+
+            this.OtpInputBox = false;
+            this.RegisterBox = false;
+            this.PasswordBox = true;
+           
+            clearInterval(pollInterval); // Stop polling once the payment is successful
+            // Redirect to the register page
+            this.router.navigate(['/register']);
+
+            console.log("GenerateOtpForm after payment done: ",this.GenerateOtpForm)
+          
+
+          } else if (paymentStatus === 'Pending') {
+            console.log("Payment is still pending");
+            // Continue polling since the payment is not yet done
+          }
         } else {
-
-          console.error('Registration failed:', res.ResponseMsg || 'Unknown error');
-         
+          console.log("No valid response, continue polling...");
         }
-      },
-      (error: any) => {
-       
-        console.error('API error occurred:', error);
+      }, error => {
+        console.error('Error during polling:', error);
+        // Optionally, clear the interval if you want to stop polling on error
+        clearInterval(pollInterval);
+      });
+  }, 5000); // Poll every 5 seconds (adjust interval as needed)
+}
 
-      }
-    );
-  }
 
-  checkPaymentStatus(mobileNumber: string, transactionId: string) {
-    const interval = 2000; // Check every 2 seconds
-    const timeout = 7 * 60 * 1000; // 7 minutes in milliseconds
-    const startTime = Date.now();
-  
-    const paymentStatusCheck = setInterval(() => {
-      // Call the getPaymentStatus API
-      this.getPaymentStatusFromTable()
-      
-      // Check if the timeout has been reached
-      if (Date.now() - startTime >= timeout) {
-        clearInterval(paymentStatusCheck); // Stop polling
-        console.log('Payment failed due to timeout');
-        // Redirect to register page or display a failure message
-        window.location.href = 'http://localhost:4200/register'; // Adjust as necessary
-      }
-
-    }, interval);
-  }
 
   PayAndResister() {
 
+    console.log("PayAndResister called",);
+    console.log("paymentDataForm from PayAndResister ",this.paymentDataForm.value)
+
+    this.isLoading = true;
+
     this.userService.registerFunction('appApi/create-order', this.paymentDataForm.value).subscribe(
-      (res: any) => {
-        if (res.ResponseCode == 800) {
-          // Handle successful registration/payment initiation
-          console.log('Registration successful', res);
-  
-          if (res?.url) {
-            this.isLoading = false;
-            // Navigate to the payment page if the URL exists in the response
-            window.location.href = res.url;
+      async (res: any) => {
 
-            
-          //  CHECK STATUS HERE.
-          // i want to call the getPaymentStatus api with res.mobileNumber and res.transactionid and
-          // check the status every 2 second till 7 minut if data is fetched then i want to handle
-          // the condition using if else. so if data fetched in time frame then i can handle
-          // other wise i want to display payment failled and redirect to the http://localhost:4200/register page.
+        console.log("Response data with hash", res.data);
 
+        this.isLoading = false;
 
+        const form = await document.createElement('form'); 
+        form.method = await 'POST';
+        form.action = await 'https://sucure.payu.in/_payment'; // PayU Production URL, use https://test.payu.in/_payment for testing
 
-            console.log("res from PayAndResister ", res);
-          } else {
-            // Handle the case where the URL is missing in the response
-            console.error('Payment URL not found in response');
-          }
-        } else {
-          // Handle registration failure (e.g., invalid data, backend issue)
-          console.error('Registration failed:', res.ResponseMsg || 'Unknown error');
-          // Optionally display an error message to the user
-        }
+        // Add form fields with the necessary payment details
+        await form.appendChild(this.createHiddenField('key', res.data.key));
+        await form.appendChild(this.createHiddenField('hash', res.data.hash));
+        await form.appendChild(this.createHiddenField('txnid', res.data.txnid));
+        await form.appendChild(this.createHiddenField('amount', res.data.amount));
+        await form.appendChild(this.createHiddenField('firstname', res.data.firstname));
+        await form.appendChild(this.createHiddenField('email', res.data.email));
+        await form.appendChild(this.createHiddenField('productinfo', res.data.productinfo));
+        await form.appendChild(this.createHiddenField('udf1', res.data.udf1));
+        await form.appendChild(this.createHiddenField('udf2', res.data.udf2));
+        await form.appendChild(this.createHiddenField('udf3', res.data.udf3));
+        await form.appendChild(this.createHiddenField('udf4', res.data.udf4));
+        await form.appendChild(this.createHiddenField('udf5', res.data.udf5));
+        await form.appendChild(this.createHiddenField('surl', `https://n2lacademy.in/api/appApi/success?transactionid=${res.data.txnid}&amount=${res.data.amount}&name=${res.data.firstname}&phone=${res.data.phone}&email=${res.data.email}`)); // Success URL
+        await form.appendChild(this.createHiddenField('furl', 'https://n2lacademy.in/api/appApi/failure')); // Failure URL
+
+        await document.body.appendChild(form);
+        await form.submit();
+
       },
       (error: any) => {
         // Handle network or server errors
-        console.error('API error occurred:', error);
+        console.error('API error occurred:', error.message);
         // Optionally show a generic error message to the user
       }
     );
   }
+
+
   
 
-  async VerifyOtp() {
-    this.isLoading = true;
-    if (this.mobileOtp.length == 4) {
-      this.GenerateOtpForm.patchValue({
-        mobileOtp: this.mobileOtp,
-        emailOtp: this.emailOtp,
-        OtpId: this.OtpId
-      })
-      this.userService.verifyOtpFunction('users/VerifyOtp', this.GenerateOtpForm.value).subscribe((res: any) => {
-        if (res.ResponseCode == 800) {
-          this.verified = true;
-
-          setTimeout( async ()=>{
-            await this.PayAndResister()
-          }, 2000);
-
-          // setTimeout(() => {
-          //   this.OtpInputBox = false;
-          //   this.PasswordBox = true;
-          // }, 2000);
-
-
-        } else if (res.ResponseCode == 300) {
-          this.NotVerified = true;
-          this.OtpInputBox = false;
-          this.RegisterBox = true;
-        }
-      })
-
-    } else {
-      this.btnOtpSubmit = true;
-    }
+  createHiddenField(name: string, value: string) {
+    const input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = name;
+    input.value = value;
+    return input;
   }
+  
+
+  
   //OTP varification End
 
   //Password Validation Check
   PassValidation: boolean = false;
   checkPassword() {
     if (this.PasswordForm.valid) {
+
       if (this.PasswordForm.value.password == this.PasswordForm.value.confirmPassword) {
-        this.GenerateOtpForm.patchValue({
-          password: this.PasswordForm.value.password,
-          confirmPassword: this.PasswordForm.value.confirmPassword
-        })
+        
         this.verifyAndRegister(); //Register Method Call here
       } else {
         this.PassValidation = true;
@@ -241,16 +339,39 @@ export class RegisterComponent {
     }
   }
 
-  verifyAndRegister() {
-    this.userService.registerFunction('users/Register', this.GenerateOtpForm.value).subscribe((res: any) => {
+  async verifyAndRegister() {
+
+    await this.GenerateOtpForm.patchValue({
+      ...this.GenerateOtpForm.value,
+      confirmPassword: this.PasswordForm.value.confirmPassword,
+      password: this.PasswordForm.value.password
+      
+    })
+    console.log("PasswordForm from verifyAndRegister: ",this.GenerateOtpForm.value)
+    
+    this.userService.registerFunction('users/Register', this.GenerateOtpForm.value).subscribe( (res: any) => {
+      console.log("response from server: ",res);
       if (res.ResponseCode == 800) {
-        Swal.fire({ icon: 'success', text: res.ResponseMsg, timer: 3000 })
-        this.RegisterBox = true;
+        
+        this.RegisterBox = false;
         this.PasswordBox = false;
+        this.PassValidation = false;
         this.GenerateOtpForm.reset();
         this.PasswordForm.reset();
-        this.PassValidation = false;
+
+        Swal.fire({ icon: 'success', text: res.ResponseMsg, timer: 3000 })
+
+        setTimeout(async () => {
+          await Swal.fire({
+            icon: 'success', // Icon type
+            title: 'Redirecting to home page.', // Title of the alert
+            timer: 3000 // Auto close after 3 seconds
+          });
+          this.router.navigate(['/home']);
+        }, 1000);
+        
       } else if(res.ResponseCode == 300 ){
+        console.log("verifyAndRegister else if part called: ",res);
         Swal.fire({ icon: 'error', text: res.ResponseMsg, timer: 3000 })
         this.RegisterBox = true;
         this.PasswordBox = false;
@@ -258,6 +379,7 @@ export class RegisterComponent {
         this.PasswordForm.reset(); 
       }
       else {
+        console.log("verifyAndRegister else part called: ",res);
         Swal.fire({ icon: 'error', text: res.ResponseMsg, timer: 3000 })
         this.RegisterBox = true;
         this.PasswordBox = false;
@@ -267,5 +389,8 @@ export class RegisterComponent {
     })
 
   }
+
+
+  
 
 }
